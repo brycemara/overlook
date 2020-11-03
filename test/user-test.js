@@ -185,4 +185,4 @@ let bookingData;
 
     expect(amountSpent).to.equal(200.39)
   });
-})
+});
