@@ -1,8 +1,7 @@
 import User from './User';
 class Manager extends User {
-  constructor(roomData, bookingData) {
-    super(roomData, bookingData);
-    this.userData = userData;
+  constructor(roomData, bookingData, userData) {
+    super(roomData, bookingData, userData);
   }
   searchUsers(userID) {
     let user = userData.find(user => user.id === userID)
