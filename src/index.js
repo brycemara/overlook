@@ -7,6 +7,7 @@ import './css/base.scss';
 import {fetchApi} from './fetchAPI'
 
 
+
 const fetchedUserData = fetchApi.fetchUserData();
 const fetchedRoomData = fetchApi.fetchRoomData();
 const fetchedBookingData = fetchApi.fetchBookingData();
@@ -15,14 +16,25 @@ let userData;
 let roomData;
 let bookingData;
 
+function reAssignData() {
+  Promise.all([fetchedUserData, fetchedRoomData, fetchedBookingData]).then(values => {
+    userData = values[0];
+    roomData = values[1];
+    bookingData = values[2];
+  })
+}
 
-Promise.all([fetchedUserData, fetchedRoomData, fetchedBookingData]).then(values => {
-  userData = values[0];
-  roomData = values[1];
-  bookingData = values[2];
-})
+const userNameInput = document.querySelector('.username');
+const passwordInput = document.querySelector('.password');
+const loginButton = document.querySelector('.login-button');
+
+window.onload = reAssignData();
+loginButton.addEventListener('click', checkLogin)
 
 function checkLogin() {
+  if (userNameInput.value === 'manager' && passwordInput.value === 'overlook2020') {
+    managerDisplayLogin();
+  }
 // if its a manager display manager & instantiate a manager
 // if its a customer display customer & instantiate a customer
 }
@@ -42,7 +54,8 @@ function instantiateCustomer() {
 }
 
 function managerDisplayLogin() {
-
+  document.querySelector('.login-form').classList.add('hidden');
+  document.querySelector('.manager-dashboard').classList.remove('hidden')
 }
 
 function instantiateManager() {
