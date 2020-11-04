@@ -28,4 +28,4 @@ let fetchApi = {
   }
 };
 
-export {fetchAPIs};
+export {fetchApi}
