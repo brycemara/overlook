@@ -25,7 +25,7 @@ Promise.all([fetchedUserData, fetchedRoomData, fetchedBookingData]).then(values 
 
 
 function startApp() {
-
+  displayLogin();
 };
 
 function displayLogin() {
