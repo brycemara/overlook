@@ -12,6 +12,7 @@ import {fetchApi} from './fetchAPI'
 let userData;
 let roomData;
 let bookingData;
+let customer;
 
 function reAssignData() {
   const fetchedUserData = fetchApi.fetchUserData();
@@ -27,9 +28,16 @@ function reAssignData() {
 const userNameInput = document.querySelector('.username');
 const passwordInput = document.querySelector('.password');
 const loginButton = document.querySelector('.login-button');
+const searchButton = document.querySelector('.search-button');
+const oneBedOption = document.querySelector('.item-1');
+const twoBedOption = document.querySelector('.item-2');
+const dateInput = document.querySelector('.date-input');
+const searchResults = document.querySelector('.search-results');
 
 window.onload = reAssignData();
-loginButton.addEventListener('click', checkLogin)
+loginButton.addEventListener('click', checkLogin);
+searchButton.addEventListener('click', checkInputs);
+
 
 function checkLogin() {
   if (userNameInput.value === 'manager' && passwordInput.value === 'overlook2020') {
@@ -38,7 +46,7 @@ function checkLogin() {
   } else if (userNameInput.value.includes('customer') && passwordInput.value === 'overlook2020') {
     let user = getUserFromLogin(userNameInput.value);
     instantiateCustomer(user);
-    customerDisplayLogin(user);
+    customerDisplayLogin(customer);
   }
 }
 
@@ -48,17 +56,20 @@ function getUserFromLogin(userInput) {
   return userData.find(user => user.id === userID);
 }
 
-function customerDisplayLogin(user) {
+function customerDisplayLogin(customer) {
   document.querySelector('.login-form').classList.add('hidden');
   document.querySelector('.customer-dashboard').classList.remove('hidden');
-  document.querySelector('.welcome').innerText = `Welcome ${user.name}, to the Hotel California!`
+  document.querySelector('.welcome').innerText = `Welcome ${customer.name}, to the Hotel California!`
+  document.querySelector('.customer-spending').innerText = `$${customer.totalSpent}`;
+  roomData.forEach((room) => {
+    searchResults.insertAdjacentHTML('beforeend', createRoomBlocks(room));
+  });
 }
 
 function instantiateCustomer(user) {
-  const customer = new Customer(roomData, bookingData, userData, user);
+  customer = new Customer(roomData, bookingData, userData, user);
   let customerData = customer.getUserBookings();
   customer.calculateTotalAmountSpent(customerData);
-  return customer;
 }
 
 function managerDisplayLogin() {
@@ -70,4 +81,29 @@ function instantiateManager() {
   const manager = new Manager(roomData, bookingData, userData);
   manager.calculateTotalAmountSpent(bookingData);
   return manager;
+}
+
+function checkInputs() {
+  let dateSearchResults = customer.searchAvailibility(dateInput);
+  let filterResults;
+  if (oneBedOption.selected) {
+    filterResults = customer.filterByRoomType(1, dateSearchResults)
+  } else if (twoBedOption.selected) {
+    filterResults = customer.filterByRoomType(2, dateSearchResults)
+  }
+  searchResults.innerText = "";
+  filterResults.forEach((room) => {
+    searchResults.insertAdjacentHTML('beforeend', createRoomBlocks(room));
+  });
+}
+
+function createRoomBlocks(room) {
+  const roomBlock =
+  `<div class="avaiable-room">
+    <img id="room-image" src="https://placeimg.com/250/175/any" alt="Room">
+    <h3 id="room-image-name-card">${room.roomType}</h3>
+    <p id="room-image-price">This room has ${room.numBeds} ${room.bedSize} beds. The price of this room is $${room.costPerNight} per night.</p>
+    <button id="book-room" type="button">Book Room</button>
+  </div>`
+  return roomBlock;
 }

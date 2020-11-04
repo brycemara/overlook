@@ -2,8 +2,25 @@
 $primary-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
 ;
 
+.avaiable-room {
+  position: relative;
+  margin: 20px;
+  height: 300px;
+  width: 250px;
+  border: white 1px solid;
+  background-color: #7ed6d6;
+}
 body {
   background: $primary-background;
+}
+
+.booking-section {
+  height: 100%;
+  width: 40%;
+}
+
+#book-room {
+
 }
 
 .hidden {
@@ -11,7 +28,7 @@ body {
 }
 
 img.avatar {
-  width: 40%;
+  width: 30%;
   border-radius: 50%;
 }
 
@@ -23,6 +40,14 @@ img.avatar {
 .container {
   text-align: center;
   padding: 16px;
+  border: 1px solid blue
+}
+
+.customer-dashboard {
+  display: flex;
+  flex-direction: row;
+  margin: 5vw;
+  justify-content: space-around;
 }
 
 input[type=text], input[type=password] {
@@ -38,7 +63,7 @@ input[type=text], input[type=password] {
   border: 1px solid blue;
   display: flex;
   justify-content: center;
-  // background-image: url(./images/hotel-california.jpeg);
+  background-image: url(https://images.upvenue.com/images/2017/09/1505432505-hotel-california.jpg);
 }
 
 .loginbtn {
@@ -50,4 +75,47 @@ input[type=text], input[type=password] {
   display: flex;
   justify-content: center;
   flex-direction: row
+}
+#room-image {
+  cursor: pointer;
+  top: 0px;
+  height: 175px;
+  width: 250px;
+}
+
+#room-image-name-card {
+  cursor: pointer;
+  top: 162px;
+  margin: 5px;
+  align-items: center;
+}
+
+#room-image-price {
+  cursor: pointer;
+  font-size: 14px;
+  font-style: italic;
+  margin: 10px;
+  width: 220px;
+  background-color: #7ed6d6;
+}
+.search-section {
+  height: 100%;
+  width: 60%;
+}
+
+.search-results {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.user-bookings {
+  border: 1px solid green;
+  text-align: center;
+}
+
+.user-spending {
+  text-align: center;
+  border: 1px solid red;
 }
