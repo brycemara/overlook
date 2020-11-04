@@ -6,9 +6,6 @@
     <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,800&display=swap" rel="stylesheet" />
   </head>
   <body>
-    <section class="landing">
-      <h1>Welcome to the Hotel California</h1>
-    </section>
     <section class="login-form">
       <form>
         <div class="imgcontainer">
@@ -19,19 +16,17 @@
           <input type="text" placeholder="Enter Username" name="uname" required>
           <label for="psw"><b>Password</b></label>
           <input type="password" placeholder="Enter Password" name="psw" required>
+          <button type="submit">Login</button>
+          <label>
+            <input type="checkbox" checked="checked" name="remember"> Remember me
+          </label>
         </div>
         <div class="container" >
-          <button type="button" class="loginbtn">Login</button>
+          <button type="button" class="cancelbtn">Cancel</button>
         </div>
       </form>
     </section>
-    <section class="customer-dashboard hidden">
-      <h1>Customer Page</h1>
-    </section>
-    <section class="manager-dashboard hidden">
-      <h1>Manager Page</h1>
-    </section>
 
     <!-- Do not include the index.js or main.bundle.js file here - it is done automatically by the webpack server -->
-  </body>
+  <script type="text/javascript" src="main.bundle.js"></script></body>
 </html>

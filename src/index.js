@@ -4,7 +4,7 @@ import './css/base.scss';
 import './images/turing-logo.png'
 
 
-import {fetchApi} from '.fetchAPI'
+import {fetchApi} from './fetchAPI'
 
 
 const fetchedUserData = fetchApi.fetchUserData();
@@ -20,42 +20,32 @@ Promise.all([fetchedUserData, fetchedRoomData, fetchedBookingData]).then(values 
   userData = values[0];
   roomData = values[1];
   bookingData = values[2];
-  startApp();
 });
-
-
-function startApp() {
-  displayLogin();
-};
-
-function displayLogin() {
-
-};
 
 function checkLogin() {
 // if its a manager display manager & instantiate a manager
 // if its a customer display customer & instantiate a customer
-};
+}
 
 function getRandomCustomerIndex() {
   const userIndex = Math.floor(Math.random() * 50);
   return userData[userIndex]
-};
+}
 
 function customerDisplayLogin() {
 
-};
+}
 
 function instantiateCustomer() {
   const customer = new Customer(roomData, bookingData, userData, getRandomUserIndex());
   return customer;
-};
+}
 
 function managerDisplayLogin() {
 
-};
+}
 
-instantiateManager() {
+function instantiateManager() {
   const manager = new Manager(roomData, bookingData, userData);
   return manager;
-};
+}
