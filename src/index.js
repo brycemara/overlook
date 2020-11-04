@@ -36,21 +36,28 @@ function checkLogin() {
     instantiateManager();
     managerDisplayLogin();
   } else if (userNameInput.value.includes('customer') && passwordInput.value === 'overlook2020') {
-    let splitUserName = userNameInput.value.split('customer');
-    let userID = parseInt(splitUserName[1]);
-    instantiateCustomer(userID);
-    customerDisplayLogin();
+    let user = getUserFromLogin(userNameInput.value);
+    instantiateCustomer(user);
+    customerDisplayLogin(user);
   }
 }
 
-function customerDisplayLogin() {
-  document.querySelector('.login-form').classList.add('hidden');
-  document.querySelector('.customer-dashboard').classList.remove('hidden');
+function getUserFromLogin(userInput) {
+  let splitUserName = userInput.split('customer');
+  let userID = parseInt(splitUserName[1]);
+  return userData.find(user => user.id === userID);
 }
 
-function instantiateCustomer(userID) {
-  let user = userData.find(user => user.id === userID)
+function customerDisplayLogin(user) {
+  document.querySelector('.login-form').classList.add('hidden');
+  document.querySelector('.customer-dashboard').classList.remove('hidden');
+  document.querySelector('.welcome').innerText = `Welcome ${user.name}, to the Hotel California!`
+}
+
+function instantiateCustomer(user) {
   const customer = new Customer(roomData, bookingData, userData, user);
+  let customerData = customer.getUserBookings();
+  customer.calculateTotalAmountSpent(customerData);
   return customer;
 }
 
@@ -61,5 +68,6 @@ function managerDisplayLogin() {
 
 function instantiateManager() {
   const manager = new Manager(roomData, bookingData, userData);
+  manager.calculateTotalAmountSpent(bookingData);
   return manager;
 }
