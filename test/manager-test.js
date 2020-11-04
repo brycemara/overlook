@@ -149,15 +149,15 @@ describe('Manager', () => {
     expect(manager).to.be.an.instanceof(Manager);
   });
 
-  it('should be able to search users bookings', () => {
-    let searchResults = manager.searchUsers(25);
+  it('should be able to search users bookings by user name', () => {
+    let searchResults = manager.searchUsers("Leatha Ullrich");
 
     expect(searchResults).to.deep.equal([{
-    "id": "5fwrgu4i7k55hl6ta",
-    "userID": 25,
-    "date": "2020/04/22",
-    "roomNumber": 9,
+    "id": "5fwrgu4i7k55hl6t8",
+    "userID": 1,
+    "date": "2020/02/05",
+    "roomNumber": 12,
     "roomServiceCharges": []
-  }])
+    }])
   });
 });

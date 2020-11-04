@@ -3,8 +3,9 @@ class Manager extends User {
   constructor(roomData, bookingData, userData) {
     super(roomData, bookingData, userData);
   }
-  searchUsers(userID) {
-    let usersData = this.bookings.filter(booking => booking.userID === userID);
+  searchUsers(userName) {
+    let user = this.userData.find(user => user.name === userName)
+    let usersData = this.bookings.filter(booking => booking.userID === user.id);
     return usersData;
   }
 };
