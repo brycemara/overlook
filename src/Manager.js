@@ -4,8 +4,8 @@ class Manager extends User {
     super(roomData, bookingData, userData);
   }
   searchUsers(userID) {
-    let users = this.bookings.filter(booking => booking.userID === userID)
-    return users;
+    let usersData = this.bookings.filter(booking => booking.userID === userID);
+    return usersData;
   }
 };
 export default Manager;

@@ -33,18 +33,14 @@ class User {
     // return 'You have deleted this bookingon this date'
     // call DELETE data function from fetchAPI object
   }
-  calculateTotalAmountSpent(userID) {
-    let userBookings = this.bookings.filter(booking => booking.userID === userID)
-    let totalAmountSpentOnRoomService = userBookings.reduce((totalSpent, booking) => {
-        booking.roomServiceCharges.forEach(charge => {
-          totalSpent += charge;
-        })
+  calculateTotalAmountSpent(bookingData) {
+    let totalAmountSpentOnRoom = bookingData.reduce((totalSpent, booking) => {
+      this.rooms.forEach(room => {
+        if(booking.roomNumber === room.number) {
+          totalSpent += room.costPerNight;
+        }
+      });
       return totalSpent;
-    }, 0);
-    let totalAmountSpentOnRoom = userBookings.reduce((totalSpent, booking) => {
-      let room = this.rooms.find(room => booking.roomNumber === room.number);
-        totalSpent += room.costPerNight;
-      return totalSpent
     }, 0);
     return totalAmountSpentOnRoom;
   }

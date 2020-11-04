@@ -179,10 +179,10 @@ let bookingData;
     expect(user.bookings.length).to.deep.equal(7);
   });
 
-//TODO: Test for is their are roomServiceCharges
+//TODO: Test for is their are roomServiceCharges?
   it('should be able to calculate total amount spent', () => {
-    let amountSpent = user.calculateTotalAmountSpent(25);
+    let amountSpent = user.calculateTotalAmountSpent(bookingData);
 
-    expect(amountSpent).to.equal(200.39)
+    expect(amountSpent).to.equal(431.85);
   });
 });

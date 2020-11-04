@@ -159,6 +159,5 @@ describe('Manager', () => {
     "roomNumber": 9,
     "roomServiceCharges": []
   }])
-});
-
+  });
 });
