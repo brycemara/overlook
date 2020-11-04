@@ -1,7 +1,7 @@
 import './css/base.scss';
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
-import './images/turing-logo.png'
+// import './images/hotel-california.jpeg'
 
 
 import {fetchApi} from './fetchAPI'
@@ -20,7 +20,7 @@ Promise.all([fetchedUserData, fetchedRoomData, fetchedBookingData]).then(values 
   userData = values[0];
   roomData = values[1];
   bookingData = values[2];
-});
+})
 
 function checkLogin() {
 // if its a manager display manager & instantiate a manager
