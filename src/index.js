@@ -64,6 +64,7 @@ function customerDisplayLogin(customer) {
   roomData.forEach((room) => {
     searchResults.insertAdjacentHTML('beforeend', createRoomBlocks(room));
   });
+  userBookingsDisplay();
 }
 
 function instantiateCustomer(user) {
@@ -106,4 +107,24 @@ function createRoomBlocks(room) {
     <button id="book-room" type="button">Book Room</button>
   </div>`
   return roomBlock;
+}
+
+function userBookingsDisplay() {
+  let customerBookings = customer.getUserBookings()
+  customerBookings.forEach((booking) => {
+    document.querySelector('.user-bookings').insertAdjacentHTML('beforeend', createUserBookings(booking));
+  });
+}
+
+function createUserBookings(booking) {
+  let room = roomData.find(room => booking.roomNumber === room.number)
+  var bookingCard = `
+  <div class="booking-card">
+    <div>
+      <p >Your booking on ${booking.date}</p>
+      <p>${room.roomType} with ${room.numBeds} ${room.bedSize} at a price of ${room.costPerNight} per night</p>
+    </div>
+  </div>
+  `;
+  return bookingCard;
 }
