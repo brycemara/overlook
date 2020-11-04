@@ -167,22 +167,33 @@ let bookingData;
   });
 
   it('should be able to book a room', () => {
-    let bookedRoom = user.bookRoom(15, userData[1], "2020/04/22");
+    let bookedRoom = user.bookRoom(12, userData[0], "2020/02/05");
 
-    expect(user.bookings.length).to.deep.equal(8);
+    expect(bookedRoom).to.deep.equal({
+    "id": "5fwrgu4i7k55hl6t8",
+    "userID": 1,
+    "date": "2020/02/05",
+    "roomNumber": 12,
+    "roomServiceCharges": []
+    });
   });
 
   it('should be able to cancel a room', () => {
-    let bookedRoom = user.bookRoom(15, userData[1], "2020/04/22");
-    let canceledRoom = user.cancelRoom(15, "2020/04/22");
+    let canceledRoom = user.cancelRoom(12, userData[0], "2020/02/05");
 
-    expect(user.bookings.length).to.deep.equal(7);
+    expect(canceledRoom).to.deep.equal({
+    "id": "5fwrgu4i7k55hl6t8",
+    "userID": 1,
+    "date": "2020/02/05",
+    "roomNumber": 12,
+    "roomServiceCharges": []
+    });
   });
 
 //TODO: Test for is their are roomServiceCharges?
   it('should be able to calculate total amount spent', () => {
     user.calculateTotalAmountSpent(bookingData);
 
-    expect(user.totalSpent).to.equal("350690.96");
+    expect(user.totalSpent).to.equal('431.85');
   });
 });
