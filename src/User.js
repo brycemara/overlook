@@ -1,3 +1,5 @@
+import {fetchApi} from './fetchAPI';
+
 class User {
   constructor(roomData, bookingData, userData) {
     this.bookings = bookingData;
@@ -15,23 +17,15 @@ class User {
    return this.rooms.filter(room => !bookedRoomNumbers.includes(room.number))
   }
   bookRoom(roomNumber, user, date) {
-    let room = this.bookings.find(booking => booking.roomNumber === roomNumber)
-    this.bookings.push({
-      "id": "5fwrgu4i7k55hl6sx",
-      "userID": user.id,
-      "date": date,
-      "roomNumber": roomNumber,
-      "roomServiceCharges": []
-      })
-    // return 'You have booked this room on this date'
-    // call POST Data Function from fetchAPI object
+    let roomBooked = this.bookings.find(booking => booking.roomNumber === roomNumber && booking.userID === user.id && booking.date === date)
+    // fetchApi.postBookingData(roomBooked);
+    return roomBooked;
+
   }
-  cancelRoom(roomNumber, date) {
-    let room = this.bookings.find(booking => booking.roomNumber === roomNumber && booking.date === date);
-    let index = this.bookings.indexOf(room);
-    this.bookings.splice(index, 1)
-    // return 'You have deleted this bookingon this date'
-    // call DELETE data function from fetchAPI object
+  cancelRoom(roomNumber, user, date) {
+    let canceledRoom = this.bookings.find(booking => booking.roomNumber === roomNumber && booking.userID === user.id && booking.date === date)
+    // fetchApi.deleteBookingData(canceledRoom);
+    return canceledRoom;
   }
   calculateTotalAmountSpent(bookingData) {
     this.totalSpent = bookingData.reduce((totalSpent, booking) => {

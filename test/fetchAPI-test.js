@@ -9,7 +9,7 @@ describe('fetchApi', () => {
 
   before(() => {
     global.fetchApi = {};
-    chai.spy.on(fetchApi, ['fetchUserData', 'fetchRoomData', 'fetchBookingData', 'deleteBookingData', 'postBookingData'], () => {})
+    chai.spy.on(fetchApi, ['fetchUserData', 'fetchRoomData', 'fetchBookingData', 'deleteBookingData', 'postBookingData', 'buildBookingData'], () => {})
   });
 
   it('should be able to fetch user data', () => {
@@ -34,16 +34,27 @@ describe('fetchApi', () => {
   });
 
   it('should be able to delete booking data', () => {
-    fetchApi.deleteBookingData();
+    let booking = {};
+    fetchApi.deleteBookingData(booking);
 
     expect(fetchApi.deleteBookingData).to.have.been.called(1);
-    expect(fetchApi.deleteBookingData).to.have.been.called.with();
+    expect(fetchApi.deleteBookingData).to.have.been.called.with(booking);
+  });
+
+  it('should be able to build booking data object', () => {
+    let booking = {};
+    fetchApi.buildBookingData(booking);
+
+    expect(fetchApi.buildBookingData).to.have.been.called(1);
+    expect(fetchApi.buildBookingData).to.have.been.called.with(booking);
   });
 
   it('should be able to post booking data', () => {
-    fetchApi.postBookingData();
+    let booking = {};
+    fetchApi.postBookingData(booking);
 
     expect(fetchApi.postBookingData).to.have.been.called(1);
-    expect(fetchApi.postBookingData).to.have.been.called.with();
+    expect(fetchApi.postBookingData).to.have.been.called.with(booking);
   });
+
 });
