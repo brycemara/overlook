@@ -34,7 +34,7 @@ class User {
     // call DELETE data function from fetchAPI object
   }
   calculateTotalAmountSpent(bookingData) {
-    let totalAmountSpentOnRoom = bookingData.reduce((totalSpent, booking) => {
+    this.totalSpent = bookingData.reduce((totalSpent, booking) => {
       this.rooms.forEach(room => {
         if(booking.roomNumber === room.number) {
           totalSpent += room.costPerNight;
@@ -42,7 +42,7 @@ class User {
       });
       return totalSpent;
     }, 0);
-    return totalAmountSpentOnRoom;
+    this.totalSpent = (this.totalSpent).toFixed(2)
   }
 };
 

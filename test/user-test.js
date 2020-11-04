@@ -181,8 +181,8 @@ let bookingData;
 
 //TODO: Test for is their are roomServiceCharges?
   it('should be able to calculate total amount spent', () => {
-    let amountSpent = user.calculateTotalAmountSpent(bookingData);
+    user.calculateTotalAmountSpent(bookingData);
 
-    expect(amountSpent).to.equal(431.85);
+    expect(user.totalSpent).to.equal("350690.96");
   });
 });

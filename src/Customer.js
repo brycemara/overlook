@@ -9,6 +9,10 @@ class Customer extends User {
     const filteredRooms = roomsArray.filter(room => room.numBeds === numBeds);
     return filteredRooms;
   }
+  getUserBookings() {
+    let userBookings = this.bookings.filter(booking => booking.userID === this.id);
+    return userBookings;
+  }
 };
 
 export default Customer;
