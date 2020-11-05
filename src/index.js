@@ -35,11 +35,13 @@ const twoBedOption = document.querySelector('.item-2');
 const dateInput = document.querySelector('.date-input');
 const searchResults = document.querySelector('.search-results');
 const searchUserBookingsButton = document.querySelector('.search-customer-bookings');
+const searchOccupied = document.querySelector('.search-hotel-percent-occupied');
 
 window.onload = reAssignData();
 loginButton.addEventListener('click', checkLogin);
 searchButton.addEventListener('click', checkInputs);
 searchUserBookingsButton.addEventListener('click', getCustomerBookings);
+searchOccupied.addEventListener('click', searchOccupiedByDate);
 
 function checkLogin() {
   if (userNameInput.value === 'manager' && passwordInput.value === 'overlook2020') {
@@ -81,6 +83,11 @@ function managerDisplayLogin() {
   document.querySelector('.revenue').innerText = `$${manager.totalSpent}`;
 }
 
+function searchOccupiedByDate() {
+  let date = document.querySelector('.date-input-occupied').value;
+  document.querySelector('.percent-occupied').innerText = `${manager.getPercentOccupied(date)}%`;
+}
+
 function instantiateManager() {
   manager = new Manager(roomData, bookingData, userData);
   manager.calculateTotalAmountSpent(bookingData);
@@ -96,7 +103,6 @@ function getCustomerBookings() {
   customerBookings.forEach((booking) => {
     document.querySelector('.user-results').insertAdjacentHTML('beforeend', createUserBookings(booking));
   });
-
 }
 
 function checkInputs() {
