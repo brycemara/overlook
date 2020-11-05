@@ -9,7 +9,7 @@
     <section class="landing">
       <h1 class="welcome">Welcome to the Hotel California</h1>
     </section>
-    <section class="login-form">
+    <section class="login-form hidden">
       <form>
         <div class="imgcontainer">
           <img src="https://www.thefashionisto.com/wp-content/uploads/2019/01/Timothee-Chalamet-2019-Golden-Globes-Photo-Shoot-006.jpg" alt="Avatar" class="avatar">
@@ -48,12 +48,28 @@
         </div>
         <div class="user-bookings">
           <h3>Your Bookings</h3>
-
         </div>
       </section>
     </section>
-    <section class="manager-dashboard hidden">
-      <h1>Manager Page</h1>
+    <section class="manager-dashboard">
+      <section class="search-section">
+        <div class="container">
+          <h3>Search Bookings By Cutomer Name</h3>
+          <input type="text" placeholder="Enter Customer Name" class="customer-name" required>
+          <button type="button" class="search-button">Search Customer Bookings</button>
+          <section class="search-results">
+        </div>
+      </section>
+      <section class="booking-section">
+        <div class="total-revenue">
+          <h3>Hotel Revenue</h3>
+          <p class="revenue">600$</p>
+        </div>
+        <div class="hotel-percent-occupied">
+          <h3>Percent Occupied</h3>
+          <p class="percent-occupied">40%</p>
+        </div>
+      </section>
     </section>
 
     <!-- Do not include the index.js or main.bundle.js file here - it is done automatically by the webpack server -->

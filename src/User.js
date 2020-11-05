@@ -38,6 +38,10 @@ class User {
     }, 0);
     this.totalSpent = (this.totalSpent).toFixed(2)
   }
+  getUserBookings(userID) {
+    let userBookings = this.bookings.filter(booking => booking.userID === userID);
+    return userBookings;
+  }
 };
 
 export default User;

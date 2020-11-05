@@ -69,19 +69,26 @@ function customerDisplayLogin(customer) {
 
 function instantiateCustomer(user) {
   customer = new Customer(roomData, bookingData, userData, user);
-  let customerData = customer.getUserBookings();
+  let customerData = customer.getUserBookings(customer.id);
   customer.calculateTotalAmountSpent(customerData);
 }
 
 function managerDisplayLogin() {
   document.querySelector('.login-form').classList.add('hidden');
   document.querySelector('.manager-dashboard').classList.remove('hidden');
+  document.querySelector('.revenue').innerText = `$${manager.totalSpent}`;
+
 }
 
 function instantiateManager() {
   const manager = new Manager(roomData, bookingData, userData);
   manager.calculateTotalAmountSpent(bookingData);
   return manager;
+}
+
+function customerNameInput() {
+  let customerName = document.querySelector('.customer-name').value;
+
 }
 
 function checkInputs() {
@@ -110,7 +117,7 @@ function createRoomBlocks(room) {
 }
 
 function userBookingsDisplay() {
-  let customerBookings = customer.getUserBookings()
+  let customerBookings = customer.getUserBookings(customer.id)
   customerBookings.forEach((booking) => {
     document.querySelector('.user-bookings').insertAdjacentHTML('beforeend', createUserBookings(booking));
   });
