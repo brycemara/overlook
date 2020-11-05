@@ -10,14 +10,13 @@ class User {
   searchAvailibility(date) {
     let formattedDate = date.split(/[-]+/).join('/');
     let bookedRoomNumbers = this.bookings.reduce((bookingNumbers, booking) => {
-      console.log(booking.date)
       if (booking.date === formattedDate) {
         bookingNumbers.push(booking.roomNumber)
       }
       return bookingNumbers;
     }, []);
-    console.log(bookedRoomNumbers)
-   return this.rooms.filter(room => !bookedRoomNumbers.includes(room.number))
+   let searchResults = this.rooms.filter(room => !bookedRoomNumbers.includes(room.number));
+   return searchResults;
   }
   bookRoom(roomNumber, user, date) {
     let roomBooked = this.bookings.find(booking => booking.roomNumber === roomNumber && booking.userID === user.id && booking.date === date)

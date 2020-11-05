@@ -32,7 +32,7 @@ const loginButton = document.querySelector('.login-button');
 const searchButton = document.querySelector('.search-button');
 const oneBedOption = document.querySelector('.item-1');
 const twoBedOption = document.querySelector('.item-2');
-const dateInput = document.querySelector('.date-input');
+const dateInput = document.querySelector('.date-input').value;
 const searchResults = document.querySelector('.search-results');
 const searchUserBookingsButton = document.querySelector('.search-customer-bookings');
 const searchOccupied = document.querySelector('.search-hotel-percent-occupied');
@@ -98,15 +98,14 @@ function getCustomerBookings() {
   let customerName = document.querySelector('.customer-name').value;
   let customer = userData.find(user => user.name === customerName);
   let customerBookings = manager.getUserBookings(customer.id);
-  console.log(customerBookings)
-  console.log(searchResults)
   customerBookings.forEach((booking) => {
     document.querySelector('.user-results').insertAdjacentHTML('beforeend', createUserBookings(booking));
   });
 }
 
 function checkInputs() {
-  let dateSearchResults = customer.searchAvailibility(dateInput);
+  let date = document.querySelector('.date-input').value;
+  let dateSearchResults = customer.searchAvailibility(date);
   let filterResults;
   if (oneBedOption.selected) {
     filterResults = customer.filterByRoomType(1, dateSearchResults)
