@@ -13,5 +13,17 @@ class Manager extends User {
     let amount = (this.bookings.length - roomsAvilable.length) / this.bookings.length;
     return (amount * 100).toFixed(2);
   }
+  calculateDailyRevenue(date) {
+    let bookedRoomNumbers = this.findBookedRooms(date);
+    console.log(bookedRoomNumbers)
+    let bookedRooms = this.rooms.filter(room => !bookedRoomNumbers.includes(room.number));
+
+    let revenue = bookedRooms.reduce((totalReveune, room) => {
+      totalReveune += room.costPerNight;
+      return totalReveune;
+    }, 0);
+    console.log(revenue)
+    return revenue;
+  }
 };
 export default Manager;

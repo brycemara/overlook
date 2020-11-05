@@ -32,16 +32,19 @@ const loginButton = document.querySelector('.login-button');
 const searchButton = document.querySelector('.search-button');
 const oneBedOption = document.querySelector('.item-1');
 const twoBedOption = document.querySelector('.item-2');
-const dateInput = document.querySelector('.date-input').value;
 const searchResults = document.querySelector('.search-results');
 const searchUserBookingsButton = document.querySelector('.search-customer-bookings');
 const searchOccupied = document.querySelector('.search-hotel-percent-occupied');
+const searchAvailableRoomsButton = document.querySelector('.search-avaiable-rooms');
+const calculateRevenueButton = document.querySelector('.calculate-revenue');
 
 window.onload = reAssignData();
 loginButton.addEventListener('click', checkLogin);
 searchButton.addEventListener('click', checkInputs);
 searchUserBookingsButton.addEventListener('click', getCustomerBookings);
 searchOccupied.addEventListener('click', searchOccupiedByDate);
+searchAvailableRoomsButton.addEventListener('click', avaiableRoomsDisplay);
+calculateRevenueButton.addEventListener('click', displayCalculatedRevenue);
 
 function checkLogin() {
   if (userNameInput.value === 'manager' && passwordInput.value === 'overlook2020') {
@@ -80,7 +83,7 @@ function instantiateCustomer(user) {
 function managerDisplayLogin() {
   document.querySelector('.login-form').classList.add('hidden');
   document.querySelector('.manager-dashboard').classList.remove('hidden');
-  document.querySelector('.revenue').innerText = `$${manager.totalSpent}`;
+
 }
 
 function searchOccupiedByDate() {
@@ -90,7 +93,6 @@ function searchOccupiedByDate() {
 
 function instantiateManager() {
   manager = new Manager(roomData, bookingData, userData);
-  manager.calculateTotalAmountSpent(bookingData);
   return manager;
 }
 
@@ -116,6 +118,21 @@ function checkInputs() {
   filterResults.forEach((room) => {
     searchResults.insertAdjacentHTML('beforeend', createRoomBlocks(room));
   });
+  updateSearchResultsCount(filterResults.length);
+}
+
+function displayCalculatedRevenue() {
+  let date = document.querySelector('.date-input-revenue').value;
+  let revenue = manager.calculateDailyRevenue(date);
+  document.querySelector('.revenue').innerText = `$${revenue}`;
+}
+
+function avaiableRoomsDisplay() {
+  let date = document.querySelector('.avaiable-rooms-date').value;
+  let avaibleRooms = manager.searchAvailibility(date);
+  avaibleRooms.forEach((room) => {
+    document.querySelector('.avaiable-results').insertAdjacentHTML('beforeend', createRoomBlocks(room));
+  });
 }
 
 function createRoomBlocks(room) {
@@ -134,6 +151,7 @@ function userBookingsDisplay() {
   customerBookings.forEach((booking) => {
     document.querySelector('.user-bookings').insertAdjacentHTML('beforeend', createUserBookings(booking));
   });
+  updateSearchResultsCount(customerBookings.length);
 }
 
 function createUserBookings(booking) {
@@ -147,4 +165,8 @@ function createUserBookings(booking) {
   </div>
   `;
   return bookingCard;
+}
+
+function updateSearchResultsCount(resultsCount) {
+  document.querySelector('.results-count').innerText = `${resultsCount} Results`;
 }

@@ -2,6 +2,11 @@
 $primary-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
 ;
 
+* {
+  background: transparent;
+  font-family: 'Varela Round', sans-serif;
+}
+
 .avaiable-room {
   position: relative;
   margin: 20px;
@@ -11,6 +16,19 @@ $primary-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,1
   background-color: #7ed6d6;
   box-shadow: 3px 3px 10px black;
 }
+
+.avaiable-bookings {
+  text-align: center;
+  border: 1px solid red;
+  margin: 1vw;
+}
+
+.avaiable-results {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
 body {
   background: $primary-background;
 }
