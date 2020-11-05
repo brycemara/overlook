@@ -7,6 +7,22 @@ $primary-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,1
   font-family: 'Varela Round', sans-serif;
 }
 
+*::-webkit-scrollbar-track {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+}
+
+*::-webkit-scrollbar {
+  background: white;
+  width: 12px;
+}
+
+*::-webkit-scrollbar-thumb {
+  background-color: white;
+  border-radius: 10px;
+  border: 2px solid pink;
+}
+
 .avaiable-room {
   position: relative;
   margin: 20px;
@@ -24,6 +40,8 @@ $primary-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,1
 }
 
 .avaiable-results {
+  overflow-y: scroll;
+  height: 500px;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -140,12 +158,13 @@ input[type=text], input[type=password] {
 }
 
 .search-section {
-  height: 100%;
   width: 60%;
   margin: 1vw;
 }
 
 .search-results {
+  overflow-y: scroll;
+  height: 500px;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
@@ -153,8 +172,15 @@ input[type=text], input[type=password] {
 }
 
 .user-bookings {
+  overflow-y: scroll;
+  height: 500px;
   border: 1px solid green;
   text-align: center;
+}
+
+.user-results {
+  overflow-y: scroll;
+  height: 695px;
 }
 
 .user-spending {

@@ -9,7 +9,6 @@ class User {
   }
   searchAvailibility(date) {
     let formattedDate = date.split(/[-]+/).join('/');
-    console.log('F', formattedDate)
     let bookedRoomNumbers = this.bookings.reduce((bookingNumbers, booking) => {
       if (booking.date === formattedDate) {
         bookingNumbers.push(booking.roomNumber)
@@ -21,12 +20,10 @@ class User {
   }
   findBookedRooms(date) {
     let formattedDate = date.split(/[-]+/).join('/');
-    console.log('F', formattedDate)
     let bookedBookings = this.bookings.reduce((totalBookings, booking) => {
       booking.date === formattedDate ? totalBookings.push(booking) : null;
       return totalBookings;
     }, []);
-    console.log(bookedBookings)
     return bookedBookings;
   }
   bookRoom(roomNumber, user, date) {

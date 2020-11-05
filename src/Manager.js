@@ -15,14 +15,11 @@ class Manager extends User {
   }
   calculateDailyRevenue(date) {
     let bookedRoomNumbers = this.findBookedRooms(date);
-    console.log(bookedRoomNumbers)
     let bookedRooms = this.rooms.filter(room => !bookedRoomNumbers.includes(room.number));
-
     let revenue = bookedRooms.reduce((totalReveune, room) => {
       totalReveune += room.costPerNight;
       return totalReveune;
     }, 0);
-    console.log(revenue)
     return revenue;
   }
 };
