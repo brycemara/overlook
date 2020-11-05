@@ -13,6 +13,7 @@ let userData;
 let roomData;
 let bookingData;
 let customer;
+let manager;
 
 function reAssignData() {
   const fetchedUserData = fetchApi.fetchUserData();
@@ -33,11 +34,12 @@ const oneBedOption = document.querySelector('.item-1');
 const twoBedOption = document.querySelector('.item-2');
 const dateInput = document.querySelector('.date-input');
 const searchResults = document.querySelector('.search-results');
+const searchUserBookingsButton = document.querySelector('.search-customer-bookings');
 
 window.onload = reAssignData();
 loginButton.addEventListener('click', checkLogin);
 searchButton.addEventListener('click', checkInputs);
-
+searchUserBookingsButton.addEventListener('click', getCustomerBookings);
 
 function checkLogin() {
   if (userNameInput.value === 'manager' && passwordInput.value === 'overlook2020') {
@@ -77,17 +79,23 @@ function managerDisplayLogin() {
   document.querySelector('.login-form').classList.add('hidden');
   document.querySelector('.manager-dashboard').classList.remove('hidden');
   document.querySelector('.revenue').innerText = `$${manager.totalSpent}`;
-
 }
 
 function instantiateManager() {
-  const manager = new Manager(roomData, bookingData, userData);
+  manager = new Manager(roomData, bookingData, userData);
   manager.calculateTotalAmountSpent(bookingData);
   return manager;
 }
 
-function customerNameInput() {
+function getCustomerBookings() {
   let customerName = document.querySelector('.customer-name').value;
+  let customer = userData.find(user => user.name === customerName);
+  let customerBookings = manager.getUserBookings(customer.id);
+  console.log(customerBookings)
+  console.log(searchResults)
+  customerBookings.forEach((booking) => {
+    document.querySelector('.user-results').insertAdjacentHTML('beforeend', createUserBookings(booking));
+  });
 
 }
 
@@ -128,7 +136,7 @@ function createUserBookings(booking) {
   var bookingCard = `
   <div class="booking-card">
     <div>
-      <p >Your booking on ${booking.date}</p>
+      <p>Your booking on ${booking.date}</p>
       <p>${room.roomType} with ${room.numBeds} ${room.bedSize} at a price of ${room.costPerNight} per night</p>
     </div>
   </div>

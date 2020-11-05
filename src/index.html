@@ -9,7 +9,7 @@
     <section class="landing">
       <h1 class="welcome">Welcome to the Hotel California</h1>
     </section>
-    <section class="login-form hidden">
+    <section class="login-form">
       <form>
         <div class="imgcontainer">
           <img src="https://www.thefashionisto.com/wp-content/uploads/2019/01/Timothee-Chalamet-2019-Golden-Globes-Photo-Shoot-006.jpg" alt="Avatar" class="avatar">
@@ -39,8 +39,9 @@
           <input type="date" class="date-input" name="trip-date"value=""min="2020/01/08" max="2020/06/18">
             <button type="button" class="search-button">Search Rooms</button>
           <section class="search-results">
-        </div>
-      </section>
+          </section>
+      </div>
+    </section>
       <section class="booking-section">
         <div class="user-spending">
           <h3>Your Spending</h3>
@@ -51,14 +52,15 @@
         </div>
       </section>
     </section>
-    <section class="manager-dashboard">
+    <section class="manager-dashboard hidden">
       <section class="search-section">
         <div class="container">
           <h3>Search Bookings By Cutomer Name</h3>
           <input type="text" placeholder="Enter Customer Name" class="customer-name" required>
-          <button type="button" class="search-button">Search Customer Bookings</button>
-          <section class="search-results">
+            <button type="button" class="search-customer-bookings">Search Customer Bookings</button>
         </div>
+        <section class="user-results">
+        </section>
       </section>
       <section class="booking-section">
         <div class="total-revenue">
