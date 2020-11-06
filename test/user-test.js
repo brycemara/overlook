@@ -196,4 +196,16 @@ let bookingData;
 
     expect(user.totalSpent).to.equal('431.85');
   });
+
+  it('should be able to get a specific users bookings', () => {
+    let userBookings = user.getUserBookings(1);
+
+    expect(userBookings).to.deep.equal([{
+    "id": "5fwrgu4i7k55hl6t8",
+    "userID": 1,
+    "date": "2020/02/05",
+    "roomNumber": 12,
+    "roomServiceCharges": []
+    }]);
+  });
 });

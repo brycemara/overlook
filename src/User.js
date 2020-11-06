@@ -8,13 +8,23 @@ class User {
     this.userData = userData;
   }
   searchAvailibility(date) {
+    let formattedDate = date.split(/[-]+/).join('/');
     let bookedRoomNumbers = this.bookings.reduce((bookingNumbers, booking) => {
-      if (booking.date === date) {
+      if (booking.date === formattedDate) {
         bookingNumbers.push(booking.roomNumber)
       }
       return bookingNumbers;
     }, []);
-   return this.rooms.filter(room => !bookedRoomNumbers.includes(room.number))
+   let searchResults = this.rooms.filter(room => !bookedRoomNumbers.includes(room.number));
+   return searchResults;
+  }
+  findBookedRooms(date) {
+    let formattedDate = date.split(/[-]+/).join('/');
+    let bookedBookings = this.bookings.reduce((totalBookings, booking) => {
+      booking.date === formattedDate ? totalBookings.push(booking) : null;
+      return totalBookings;
+    }, []);
+    return bookedBookings;
   }
   bookRoom(roomNumber, user, date) {
     let roomBooked = this.bookings.find(booking => booking.roomNumber === roomNumber && booking.userID === user.id && booking.date === date)
@@ -37,6 +47,10 @@ class User {
       return totalSpent;
     }, 0);
     this.totalSpent = (this.totalSpent).toFixed(2)
+  }
+  getUserBookings(userID) {
+    let userBookings = this.bookings.filter(booking => booking.userID === userID);
+    return userBookings;
   }
 };
 
