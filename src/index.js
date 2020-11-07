@@ -110,7 +110,7 @@ function checkInputs() {
   }
   searchResults.innerText = "";
   filterResults.forEach((room) => {
-    searchResults.insertAdjacentHTML('beforeend', createRoomBlocks(room));
+    searchResults.insertAdjacentHTML('beforeend', createRoomBlocks(room, date));
   });
   updateSearchResultsCount(filterResults.length);
 }
@@ -170,7 +170,7 @@ function createRoomBlocks(room, date) {
     <img id="room-image" src="https://placeimg.com/250/175/any" alt="Room">
     <h3 id="room-image-name-card">${room.roomType}</h3>
     <p id="room-image-price">This room has ${room.numBeds} ${room.bedSize} beds. The price of this room is $${room.costPerNight} per night.</p>
-    <button class="book-room" type="button" onclick="">Book Room</button>
+    <button class="book-room" type="button">Book Room</button>
   </div>`
   return roomBlock;
 }
