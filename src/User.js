@@ -26,13 +26,13 @@ class User {
     }, []);
     return bookedBookings;
   }
-  bookRoom(roomNumber, user, date) {
-    let roomBooked = this.bookings.find(booking => booking.roomNumber === roomNumber && booking.userID === user.id && booking.date === date)
+  bookRoom(roomNumber, userID, date) {
+    let roomBooked = this.bookings.find(booking => booking.roomNumber === roomNumber && booking.userID === userID && booking.date === date)
     // fetchApi.postBookingData(roomBooked);
     return roomBooked;
-
   }
   cancelRoom(roomNumber, user, date) {
+    console.log('Working!')
     let canceledRoom = this.bookings.find(booking => booking.roomNumber === roomNumber && booking.userID === user.id && booking.date === date)
     // fetchApi.deleteBookingData(canceledRoom);
     return canceledRoom;

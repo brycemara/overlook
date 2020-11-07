@@ -41,10 +41,10 @@ let fetchApi = {
   },
   buildBookingData(booking) {
     let bookingObject = {
-      userID : booking.userID,
+      userID : parseInt(booking.userID),
       date : booking.date,
-      roomNumber : booking.roomNumber
-    }
+      roomNumber : parseInt(booking.roomNumber)
+    };
     return bookingObject;
   }
 };

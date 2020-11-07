@@ -7,7 +7,7 @@ import User from './User';
 import Customer from './Customer';
 import Manager from './Manager';
 
-import {fetchApi} from './fetchAPI'
+import {fetchApi} from './fetchAPI';
 
 let userData;
 let roomData;
@@ -34,11 +34,13 @@ const searchButton = document.querySelector('.search-button');
 const oneBedOption = document.querySelector('.item-1');
 const twoBedOption = document.querySelector('.item-2');
 const searchResults = document.querySelector('.search-results');
+// const bookRoomButton = document.querySelectorAll('.book-room');
 
 const searchUserBookingsButton = document.querySelector('.search-customer-bookings');
 const searchOccupied = document.querySelector('.search-hotel-percent-occupied');
 const searchAvailableRoomsButton = document.querySelector('.search-avaiable-rooms');
 const calculateRevenueButton = document.querySelector('.calculate-revenue');
+
 
 window.onload = reAssignData();
 loginButton.addEventListener('click', checkLogin);
@@ -46,6 +48,7 @@ loginButton.addEventListener('click', checkLogin);
 ///// Customer Controls /////
 searchButton.addEventListener('click', checkInputs);
 searchUserBookingsButton.addEventListener('click', displaySearchedCustomer);
+// bookRoomButton.forEach(button => button.addEventListener('click', bookARoom))
 
 ///// Manager Controls /////
 searchOccupied.addEventListener('click', searchOccupiedByDate);
@@ -82,9 +85,9 @@ function customerDisplayLogin(customer) {
   document.querySelector('.customer-dashboard').classList.remove('hidden');
   document.querySelector('.welcome').innerText = `Welcome ${customer.name}, to the Hotel California!`
   document.querySelector('.customer-spending').innerText = `$${customer.totalSpent}`;
-  roomData.forEach((room) => {
-    searchResults.insertAdjacentHTML('beforeend', createRoomBlocks(room));
-  });
+  // roomData.forEach((room) => {
+  //   searchResults.insertAdjacentHTML('beforeend', createRoomBlocks(room));
+  // });
   updateSearchResultsCount(roomData.length);
   customerBookingsDisplay();
 }
@@ -99,14 +102,12 @@ function customerBookingsDisplay() {
 function checkInputs() {
   let date = document.querySelector('.date-input').value;
   let dateSearchResults = customer.searchAvailibility(date);
-  console.log(dateSearchResults)
   let filterResults;
   if (oneBedOption.selected) {
-    filterResults = customer.filterByRoomType(1, dateSearchResults)
+    filterResults = customer.filterByRoomType(1, dateSearchResults);
   } else if (twoBedOption.selected) {
-    filterResults = customer.filterByRoomType(2, dateSearchResults)
+    filterResults = customer.filterByRoomType(2, dateSearchResults);
   }
-  console.log(filterResults)
   searchResults.innerText = "";
   filterResults.forEach((room) => {
     searchResults.insertAdjacentHTML('beforeend', createRoomBlocks(room));
@@ -114,7 +115,10 @@ function checkInputs() {
   updateSearchResultsCount(filterResults.length);
 }
 
-
+function bookARoom(roomNumber, userID, date) {
+  console.log(roomNumber, userID, date)
+  // customer.bookRoom(roomNumber, userID, date);
+}
 
 ////////////////////////////////MANAGER LOGIN////////////////////////////////
 
@@ -152,19 +156,21 @@ function displayAvaiableRooms() {
   let date = document.querySelector('.avaiable-rooms-date').value;
   let avaibleRooms = manager.searchAvailibility(date);
   avaibleRooms.forEach((room) => {
-    document.querySelector('.avaiable-results').insertAdjacentHTML('beforeend', createRoomBlocks(room));
+    document.querySelector('.avaiable-results').insertAdjacentHTML('beforeend', createRoomBlocks(room, date));
   });
 }
 
 ////////////////////////////////PURE DOM/////////////////////////////////
 
-function createRoomBlocks(room) {
+function createRoomBlocks(room, date) {
+  let bookRoomButtons = document.querySelectorAll('.book-room');
+  bookRoomButtons.forEach(button => button.addEventListener('click', () => bookARoom(room.number, customer.id, date)))
   const roomBlock =
   `<div class="avaiable-room">
     <img id="room-image" src="https://placeimg.com/250/175/any" alt="Room">
     <h3 id="room-image-name-card">${room.roomType}</h3>
     <p id="room-image-price">This room has ${room.numBeds} ${room.bedSize} beds. The price of this room is $${room.costPerNight} per night.</p>
-    <button id="book-room" type="button">Book Room</button>
+    <button class="book-room" type="button" onclick="">Book Room</button>
   </div>`
   return roomBlock;
 }
@@ -176,6 +182,7 @@ function createBookingCards(booking) {
     <div>
       <p>Booking on ${booking.date}.</p>
       <p>${room.roomType} with ${room.numBeds} ${room.bedSize} at a price of ${room.costPerNight} per night.</p>
+      <button class="cancel-room" type="button" onclick="">Cancel Booking</button>
     </div>
   </div>
   `;
