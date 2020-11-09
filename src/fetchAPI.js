@@ -21,9 +21,13 @@ let fetchApi = {
     return fetchedBookings;
   },
   deleteBookingData(booking) {
-    let deletedData = fetch(`https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings/${booking.id}` , {
+    let deletedData = fetch(`https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings` , {
       method: 'DELETE',
-    })
+      headers: {
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify(booking)
+      })
     return deletedData;
   },
   postBookingData(roomNumber, userID, formattedDate) {

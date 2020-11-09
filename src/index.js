@@ -35,6 +35,7 @@ const oneBedOption = document.querySelector('.item-1');
 const twoBedOption = document.querySelector('.item-2');
 const searchResults = document.querySelector('.search-results');
 let bookRoomButtons = document.getElementsByClassName('book-room');
+let cancelRoomButtons = document.getElementsByClassName('cancel-room');
 
 const searchUserBookingsButton = document.querySelector('.search-customer-bookings');
 const searchOccupied = document.querySelector('.search-hotel-percent-occupied');
@@ -99,6 +100,7 @@ function customerBookingsDisplay() {
   customerBookings.forEach((booking) => {
     document.querySelector('.user-bookings').insertAdjacentHTML('beforeend', createBookingCards(booking));
   });
+  cancelRoomsEventListener();
 }
 
 function checkInputs() {
@@ -129,6 +131,19 @@ function bookARoom(e) {
   let userID = customer.id;
   let date = document.getElementById('date-input').value;
   customer.bookRoom(roomNumber, userID, date);
+}
+
+function cancelRoomsEventListener() {
+  for(let i=0; i < cancelRoomButtons.length; i++) {
+    cancelRoomButtons[i].addEventListener('click', cancelARoom);
+  }
+}
+
+function cancelARoom(e) {
+  let roomNumber = parseInt(e.target.id);
+  let userID = customer.id;
+  let date = e.target.value;
+  customer.cancelRoom(roomNumber, userID, date);
 }
 
 ////////////////////////////////MANAGER LOGIN////////////////////////////////
@@ -194,8 +209,6 @@ function displayAvaiableRooms() {
   });
 }
 
-
-
 ////////////////////////////////PURE DOM/////////////////////////////////
 
 function createRoomBlocks(room, date) {
@@ -216,7 +229,7 @@ function createBookingCards(booking) {
     <div>
       <p>Booking on ${booking.date}.</p>
       <p>${room.roomType} with ${room.numBeds} ${room.bedSize} at a price of ${room.costPerNight} per night.</p>
-      <button class="cancel-room" type="button" onclick="">Cancel Booking</button>
+      <button id=${room.number} value="${booking.date}" class="cancel-room" type="button" onclick="">Cancel Booking</button>
     </div>
   </div>
   `;
