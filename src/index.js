@@ -26,15 +26,15 @@ function reAssignData() {
   })
 }
 
-const userNameInput = document.querySelector('.username');
-const passwordInput = document.querySelector('.password');
+const userNameInput = document.getElementById('username');
+const passwordInput = document.getElementById('password');
 const loginButton = document.querySelector('.login-button');
 
 const searchButton = document.querySelector('.search-button');
 const oneBedOption = document.querySelector('.item-1');
 const twoBedOption = document.querySelector('.item-2');
 const searchResults = document.querySelector('.search-results');
-// const bookRoomButton = document.querySelectorAll('.book-room');
+let bookRoomButtons = document.getElementsByClassName('book-room');
 
 const searchUserBookingsButton = document.querySelector('.search-customer-bookings');
 const searchOccupied = document.querySelector('.search-hotel-percent-occupied');
@@ -102,7 +102,7 @@ function customerBookingsDisplay() {
 }
 
 function checkInputs() {
-  let date = document.querySelector('.date-input').value;
+  let date = document.getElementById('date-input').value;
   let dateSearchResults = customer.searchAvailibility(date);
   let filterResults;
   if (oneBedOption.selected) {
@@ -115,11 +115,20 @@ function checkInputs() {
     searchResults.insertAdjacentHTML('beforeend', createRoomBlocks(room, date));
   });
   updateSearchResultsCount(filterResults.length);
+  addBookedRoomsEventListener();
 }
 
-function bookARoom(roomNumber, userID, date) {
-  console.log(roomNumber, userID, date)
-  // customer.bookRoom(roomNumber, userID, date);
+function addBookedRoomsEventListener() {
+  for(let i=0; i < bookRoomButtons.length; i++) {
+    bookRoomButtons[i].addEventListener('click', bookARoom);
+  }
+}
+
+function bookARoom(e) {
+  let roomNumber = parseInt(e.target.id);
+  let userID = customer.id;
+  let date = document.getElementById('date-input').value;
+  customer.bookRoom(roomNumber, userID, date);
 }
 
 ////////////////////////////////MANAGER LOGIN////////////////////////////////
@@ -135,7 +144,7 @@ function displayManagerLogin() {
 }
 
 function searchOccupiedByDate() {
-  let date = document.querySelector('.date-input-occupied').value;
+  let date = document.getElementById('.date-input-occupied').value;
   document.querySelector('.percent-occupied').innerText = `${manager.getPercentOccupied(date)}%`;
 }
 
@@ -150,7 +159,7 @@ function displaySearchedCustomer() {
 }
 
 function getCusomterInfo() {
-  let customerName = document.querySelector('.customer-name').value;
+  let customerName = document.getElementById('.customer-name').value;
   let formattedCustomerName = formatCustomerName(customerName);
   let customer = userData.find(user => user.name === formattedCustomerName);
   return customer;
@@ -172,30 +181,30 @@ function displayCustomerBookings(customer) {
 }
 
 function displayCalculatedRevenue() {
-  let date = document.querySelector('.date-input-revenue').value;
+  let date = document.getElementById('.date-input-revenue').value;
   let revenue = manager.calculateDailyRevenue(date);
   document.querySelector('.revenue').innerText = `$${revenue}`;
 }
 
 function displayAvaiableRooms() {
-  let date = document.querySelector('.avaiable-rooms-date').value;
+  let date = document.getElementById('.avaiable-rooms-date').value;
   let avaibleRooms = manager.searchAvailibility(date);
   avaibleRooms.forEach((room) => {
     document.querySelector('.avaiable-results').insertAdjacentHTML('beforeend', createRoomBlocks(room, date));
   });
 }
 
+
+
 ////////////////////////////////PURE DOM/////////////////////////////////
 
 function createRoomBlocks(room, date) {
-  let bookRoomButtons = document.querySelectorAll('.book-room');
-  bookRoomButtons.forEach(button => button.addEventListener('click', () => bookARoom(room.number, customer.id, date)))
   const roomBlock =
   `<div class="avaiable-room">
     <img id="room-image" src="https://placeimg.com/250/175/any" alt="Room">
     <h3 id="room-image-name-card">${room.roomType}</h3>
-    <p id="room-image-price">This room has ${room.numBeds} ${room.bedSize} beds. The price of this room is $${room.costPerNight} per night.</p>
-    <button class="book-room" type="button">Book Room</button>
+    <p  class="room-image-price">This room has ${room.numBeds} ${room.bedSize} beds. The price of this room is $${room.costPerNight} per night.</p>
+    <button id=${room.number} class="book-room" type="button">Book Room</button>
   </div>`
   return roomBlock;
 }

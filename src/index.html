@@ -9,16 +9,16 @@
     <section class="landing">
       <h1 class="welcome">Welcome to the Hotel California</h1>
     </section>
-    <section class="login-form ">
+    <section class="login-form">
       <form>
         <div class="imgcontainer">
           <img src="https://www.thefashionisto.com/wp-content/uploads/2019/01/Timothee-Chalamet-2019-Golden-Globes-Photo-Shoot-006.jpg" alt="Avatar" class="avatar">
         </div>
         <div class="container">
-          <label for="uname"><b>Username</b></label>
-          <input type="text" placeholder="Enter Username" class="username" required>
-          <label for="psw"><b>Password</b></label>
-          <input type="password" placeholder="Enter Password" class="password" required>
+          <label for="username"><b>Username</b></label>
+          <input type="text" placeholder="Enter Username" id="username" required>
+          <label for="password"><b>Password</b></label>
+          <input type="password" placeholder="Enter Password" id="password" required>
         </div>
         <div class="container" >
           <button type="button" class="login-button">Login</button>
@@ -36,7 +36,8 @@
                 <option class="item-2">2</option>
               </select>
           </label>
-          <input type="date" class="date-input" value="" min="2020/01/08" max="2020/06/18">
+          <label for="date-input">Date:</label>
+          <input type="date" id="date-input" value="" min="2020/01/08" max="2020/06/18">
             <button type="button" class="search-button">Search Rooms</button>
           <div class="results-counter">
             <p class="results-count"></p>
@@ -58,8 +59,8 @@
     <section class="manager-dashboard hidden">
       <section class="search-section">
         <div class="container">
-          <h3>Search Bookings By Cutomer Name</h3>
-          <input type="text" placeholder="Enter Customer Name" class="customer-name" required>
+          <label for=customer-name><b>Search Bookings By Cutomer Name</b></label>
+          <input type="text" placeholder="Enter Customer Name" id="customer-name" required>
             <button type="button" class="search-customer-bookings">Search Customer Bookings</button>
         </div>
         <div class="results-counter">
@@ -70,20 +71,22 @@
       </section>
       <section class="booking-section">
         <div class="total-revenue">
-          <h3>Find Daily Revenue</h3>
-          <input type="date" class="date-input-revenue" name="occupied-date"value=""min="2020/01/08" max="2020/06/18">
-          <button type="button" class="calculate-revenue">Calculate Revenue</button>
+          <div class="input-details">
+            <label for="date-input-revenue"><b>Find Daily Revenue</b></label>
+            <input type="date" id="date-input-revenue" name="occupied-date"value=""min="2020/01/08" max="2020/06/18">
+              <button type="button" class="calculate-revenue">Calculate Revenue</button>
+          </div>
           <p class="revenue"></p>
         </div>
         <div class="hotel-percent-occupied">
-          <h3>Find Percent Occupied</h3>
-          <input type="date" class="date-input-occupied" name="occupied-date"value=""min="2020/01/08" max="2020/06/18">
-          <button type="button" class="search-hotel-percent-occupied">Search Occupancy</button>
+          <label for="date-input-occupied"><b>Find Percent Occupied</b></h3>
+          <input type="date" id="date-input-occupied" name="occupied-date"value=""min="2020/01/08" max="2020/06/18">
+            <button type="button" class="search-hotel-percent-occupied">Search Occupancy</button>
           <p class="percent-occupied">0%</p>
         </div>
         <div class="avaiable-bookings">
-          <h3>Find Avaiable Bookings</h3>
-          <input type="date" class="avaiable-rooms-date" value=""min="2020/01/08" max="2020/06/18">
+          <label for="avaiable-rooms-date"><b>Find Avaiable Bookings</b></label>
+          <input type="date" id="avaiable-rooms-date" value=""min="2020/01/08" max="2020/06/18">
           <button type="button" class="search-avaiable-rooms">Search Bookings</button>
           <p class="avaiable-results"></p>
         </div>

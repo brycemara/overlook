@@ -26,8 +26,8 @@ let fetchApi = {
     })
     return deletedData;
   },
-  postBookingData(booking) {
-    let newBooking = fetchApi.buildBookingData(booking);
+  postBookingData(roomNumber, userID, formattedDate) {
+    let newBooking = fetchApi.buildBookingData(roomNumber, userID, formattedDate);
     let postedData = fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', {
       method: 'POST',
       headers: {
@@ -39,11 +39,11 @@ let fetchApi = {
       .catch(error => console.log(error.message))
     return postedData;
   },
-  buildBookingData(booking) {
+  buildBookingData(roomNumber, userID, formattedDate) {
     let bookingObject = {
-      userID : parseInt(booking.userID),
-      date : booking.date,
-      roomNumber : parseInt(booking.roomNumber)
+      userID : userID,
+      date : formattedDate,
+      roomNumber : roomNumber
     };
     return bookingObject;
   }

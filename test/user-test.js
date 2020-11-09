@@ -167,7 +167,7 @@ let bookingData;
   });
 
   it('should be able to book a room', () => {
-    let bookedRoom = user.bookRoom(12, userData[0], "2020/02/05");
+    let bookedRoom = user.bookRoom(12, 1, "2020/02/05");
 
     expect(bookedRoom).to.deep.equal({
     "id": "5fwrgu4i7k55hl6t8",
@@ -179,7 +179,7 @@ let bookingData;
   });
 
   it('should be able to cancel a room', () => {
-    let canceledRoom = user.cancelRoom(12, userData[0], "2020/02/05");
+    let canceledRoom = user.cancelRoom(12, 1, "2020/02/05");
 
     expect(canceledRoom).to.deep.equal({
     "id": "5fwrgu4i7k55hl6t8",
