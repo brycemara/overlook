@@ -29,11 +29,13 @@ class User {
   bookRoom(roomNumber, userID, date) {
     let formattedDate = date.split(/[-]+/).join('/');
     fetchApi.postBookingData(roomNumber, userID, formattedDate);
+    alert(`You have booked a room on ${date}.`)
   }
   cancelRoom(roomNumber, userID, date) {
     let formattedDate = date.split(/[-]+/).join('/');
     let canceledRoom = this.bookings.find(booking => booking.roomNumber === roomNumber && booking.userID === userID && booking.date === formattedDate)
     fetchApi.deleteBookingData(canceledRoom);
+    alert(`You have deleted your booking on ${date}.`)
   }
   calculateTotalAmountSpent(bookingData) {
     this.totalSpent = bookingData.reduce((totalSpent, booking) => {
