@@ -140,8 +140,22 @@ function searchOccupiedByDate() {
 }
 
 function displaySearchedCustomer() {
+  let customer = getCusomterInfo();
+  if (userData.includes(customer)) {
+    displayCustomerBookings(customer);
+  } else {
+    document.querySelector('.user-results').innerHTML = "";
+    alert('Customer infomation not found.')
+  }
+}
+
+function getCusomterInfo() {
   let customerName = document.querySelector('.customer-name').value;
   let customer = userData.find(user => user.name === customerName);
+  return customer;
+}
+
+function displayCustomerBookings(customer) {
   let customerBookings = manager.getUserBookings(customer.id);
   customerBookings.forEach((booking) => {
     document.querySelector('.user-results').insertAdjacentHTML('beforeend', createBookingCards(booking));
