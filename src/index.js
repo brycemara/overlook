@@ -151,8 +151,17 @@ function displaySearchedCustomer() {
 
 function getCusomterInfo() {
   let customerName = document.querySelector('.customer-name').value;
-  let customer = userData.find(user => user.name === customerName);
+  let formattedCustomerName = formatCustomerName(customerName);
+  let customer = userData.find(user => user.name === formattedCustomerName);
   return customer;
+}
+
+function formatCustomerName(customerName) {
+  let words = customerName.split(" ")
+  let firstName = words[0][0].toUpperCase() + words[0].substring(1);
+  let lastName = words[1][0].toUpperCase() + words[1].substring(1);
+  let formattedName = firstName.concat(" " + lastName);
+  return formattedName;
 }
 
 function displayCustomerBookings(customer) {
