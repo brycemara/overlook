@@ -63,6 +63,8 @@ function checkLogin() {
     let user = getUserFromLogin(userNameInput.value);
     instantiateCustomer(user);
     customerDisplayLogin(customer);
+  } else {
+    alert('You have enterd an incorrect username or password!')
   }
 }
 
