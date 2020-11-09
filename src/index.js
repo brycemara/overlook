@@ -14,11 +14,12 @@ let roomData;
 let bookingData;
 let customer;
 let manager;
+let fetchedBookingData;
 
 function reAssignData() {
   const fetchedUserData = fetchApi.fetchUserData();
   const fetchedRoomData = fetchApi.fetchRoomData();
-  const fetchedBookingData = fetchApi.fetchBookingData();
+  fetchedBookingData = fetchApi.fetchBookingData();
   Promise.all([fetchedUserData, fetchedRoomData, fetchedBookingData]).then(values => {
     userData = values[0];
     roomData = values[1];
@@ -130,7 +131,12 @@ function bookARoom(e) {
   let roomNumber = parseInt(e.target.id);
   let userID = customer.id;
   let date = document.getElementById('date-input').value;
-  customer.bookRoom(roomNumber, userID, date);
+  let formattedDate = date.split(/[-]+/).join('/');
+  let onSuccess = () => {
+    updateBookingData();
+  }
+  fetchApi.postBookingData(roomNumber, userID, formattedDate, onSuccess);
+  console.log(bookingData)
 }
 
 function cancelRoomsEventListener() {
@@ -143,7 +149,21 @@ function cancelARoom(e) {
   let roomNumber = parseInt(e.target.id);
   let userID = customer.id;
   let date = e.target.value;
-  customer.cancelRoom(roomNumber, userID, date);
+  let booking = customer.cancelRoom(roomNumber, userID, date);
+  let onSuccess = () => {
+    updateBookingData();
+  }
+  fetchApi.deleteBookingData(booking, onSuccess);
+  console.log(bookingData)
+}
+
+function updateBookingData() {
+ fetchedBookingData = fetchApi.fetchBookingData();
+ fetchedBookingData
+  .then(value => {
+  bookingData = value
+  })
+  .catch(error => console.log(error.message))
 }
 
 ////////////////////////////////MANAGER LOGIN////////////////////////////////
@@ -228,7 +248,7 @@ function createBookingCards(booking) {
   <div class="booking-card">
     <div>
       <p>Booking on ${booking.date}.</p>
-      <p>${room.roomType} with ${room.numBeds} ${room.bedSize} at a price of ${room.costPerNight} per night.</p>
+      <p>${room.roomType} with ${room.numBeds} ${room.bedSize} at a price of $${room.costPerNight} per night.</p>
       <button id=${room.number} value="${booking.date}" class="cancel-room" type="button" onclick="">Cancel Booking</button>
     </div>
   </div>
