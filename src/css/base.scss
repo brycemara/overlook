@@ -148,7 +148,7 @@ input[type=text], input[type=password] {
   align-items: center;
 }
 
-#room-image-price {
+.room-image-price {
   cursor: pointer;
   font-size: 14px;
   font-style: italic;
@@ -184,6 +184,7 @@ input[type=text], input[type=password] {
 }
 
 .user-spending {
+  margin: 1vw;
   text-align: center;
   border: 1px solid red;
 }

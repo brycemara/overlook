@@ -21,13 +21,17 @@ let fetchApi = {
     return fetchedBookings;
   },
   deleteBookingData(booking) {
-    let deletedData = fetch(`https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings/${booking.id}` , {
+    let deletedData = fetch(`https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings` , {
       method: 'DELETE',
-    })
+      headers: {
+        'Content-Type':'application/json'
+      },
+      body: JSON.stringify(booking)
+      })
     return deletedData;
   },
-  postBookingData(booking) {
-    let newBooking = fetchApi.buildBookingData(booking);
+  postBookingData(roomNumber, userID, formattedDate) {
+    let newBooking = fetchApi.buildBookingData(roomNumber, userID, formattedDate);
     let postedData = fetch('https://fe-apps.herokuapp.com/api/v1/overlook/1904/bookings/bookings', {
       method: 'POST',
       headers: {
@@ -39,12 +43,12 @@ let fetchApi = {
       .catch(error => console.log(error.message))
     return postedData;
   },
-  buildBookingData(booking) {
+  buildBookingData(roomNumber, userID, formattedDate) {
     let bookingObject = {
-      userID : booking.userID,
-      date : booking.date,
-      roomNumber : booking.roomNumber
-    }
+      userID : userID,
+      date : formattedDate,
+      roomNumber : roomNumber
+    };
     return bookingObject;
   }
 };
