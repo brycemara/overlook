@@ -30,10 +30,13 @@ function reAssignData() {
 const userNameInput = document.getElementById('username');
 const passwordInput = document.getElementById('password');
 const loginButton = document.querySelector('.login-button');
-
 const searchButton = document.querySelector('.search-button');
-const oneBedOption = document.querySelector('.item-1');
-const twoBedOption = document.querySelector('.item-2');
+const singleRoomOption = document.querySelector('.single-room');
+const suiteOption = document.querySelector('.suite');
+const juniorSuiteOption = document.querySelector('.junior-suite');
+const resSuiteOption = document.querySelector('.residential-suite');
+
+
 const searchResults = document.querySelector('.search-results');
 let bookRoomButtons = document.getElementsByClassName('book-room');
 let cancelRoomButtons = document.getElementsByClassName('cancel-room');
@@ -108,10 +111,14 @@ function checkInputs() {
   let date = document.getElementById('date-input').value;
   let dateSearchResults = customer.searchAvailibility(date);
   let filterResults;
-  if (oneBedOption.selected) {
-    filterResults = customer.filterByRoomType(1, dateSearchResults);
-  } else if (twoBedOption.selected) {
-    filterResults = customer.filterByRoomType(2, dateSearchResults);
+  if (singleRoomOption.selected) {
+    filterResults = customer.filterByRoomType("single room", dateSearchResults);
+  } else if (suiteOption.selected) {
+    filterResults = customer.filterByRoomType("suite", dateSearchResults);
+  } else if (juniorSuiteOption.selected) {
+    filterResults = customer.filterByRoomType("junior suite", dateSearchResults);
+  } else if (resSuiteOption.selected) {
+    filterResults = customer.filterByRoomType("residential suite", dateSearchResults);
   }
   searchResults.innerText = "";
   filterResults.forEach((room) => {
