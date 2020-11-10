@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en-US">
+  <head>
+    <meta charset="UTF-8">
+    <title>Overlook</title>
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,800&display=swap" rel="stylesheet"/>
+  </head>
+  <body>
+    <section class="landing">
+      <h1 class="welcome">Welcome to the Hotel California</h1>
+    </section>
+    <section class="login-form">
+      <form>
+        <div class="imgcontainer">
+          <img src="https://www.thefashionisto.com/wp-content/uploads/2019/01/Timothee-Chalamet-2019-Golden-Globes-Photo-Shoot-006.jpg" alt="Avatar" class="avatar">
+        </div>
+        <div class="container">
+          <label for="username"><b>Username</b></label>
+          <input type="text" placeholder="Enter Username" id="username" required>
+          <label for="password"><b>Password</b></label>
+          <input type="password" placeholder="Enter Password" id="password" required>
+        </div>
+        <div class="container" >
+          <button type="button" class="login-button">Login</button>
+        </div>
+      </form>
+    </section>
+    <section class="customer-dashboard hidden">
+      <section class="search-section">
+        <div class="container">
+          <h3>Search Rooms</h3>
+          <label id="items">Room Type:
+              <select class="type">
+                <option class="blank"></option>
+                <option class="single-room">single room</option>
+                <option class="suite">suite</option>
+                <option class="junior-suite">junior suite</option>
+                <option class="residential-suite">residential suite</option>
+              </select>
+          </label>
+          <label for="date-input">Date:</label>
+          <input type="date" id="date-input" value="" min="2020/01/08" max="2020/06/18">
+            <button type="button" class="search-button">Search Rooms</button>
+          <div class="results-counter">
+            <p class="results-count"></p>
+          </div>
+          <section class="search-results">
+          </section>
+      </div>
+    </section>
+      <section class="booking-section">
+        <div class="user-spending">
+          <h3>Your Spending</h3>
+          <p class="customer-spending" style="font-size:30px">600$</p>
+        </div>
+        <h3>Your Bookings</h3>
+        <div class="user-bookings">
+        </div>
+      </section>
+    </section>
+    <section class="manager-dashboard hidden">
+      <section class="search-section">
+        <div class="container">
+          <label for=customer-name><b>Search Bookings By Cutomer Name</b></label>
+          <input type="text" placeholder="Enter Customer Name" id="customer-name" required>
+            <button type="button" class="search-customer-bookings">Search Customer Bookings</button>
+        </div>
+        <div class="spending-results">
+          <p class="spending-results">Spending</p>
+        </div>
+        <section class="user-results">
+        </section>
+      </section>
+      <section class="booking-section">
+        <div class="total-revenue">
+          <div class="input-details">
+            <label for="date-input-revenue"><b>Todays Revenue</b></label>
+              <p class="revenue-today" style="font-size:30px"></p>
+            </div>
+          </div>
+        <div class="hotel-percent-occupied">
+          <label for="date-input-occupied"><b>Todays Percent Occupied</b></h3>
+          <p class="percent-occupied" style="font-size:30px">0%</p>
+        </div>
+        <div class="avaiable-bookings">
+          <label for=customer-name><b>Search Available Bookings By Cutomer Name & Date</b></label>
+          <input type="text" placeholder="Enter Customer Name" id="customer-name-avaiable" required>
+          <label for="avaiable-rooms-date">Date:</label>
+          <input type="date" id="avaiable-rooms-date" min="2020/01/08" max="2020/06/18">
+          <button type="button" class="search-avaiable-rooms">Search Bookings</button>
+          <p class="avaiable-results"></p>
+        </div>
+      </section>
+    </section>
+
+    <!-- Do not include the index.js or main.bundle.js file here - it is done automatically by the webpack server -->
+  <script type="text/javascript" src="main.bundle.js"></script></body>
+</html>
