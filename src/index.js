@@ -36,9 +36,10 @@ const searchResults = document.querySelector('.search-results');
 const searchUserBookingsButton = document.querySelector('.search-customer-bookings');
 const searchAvailableRoomsButton = document.querySelector('.search-avaiable-rooms');
 
-window.onload = reAssignData();
+window.onload = () => {
+  reAssignData();
+}
 loginButton.addEventListener('click', checkLogin);
-
 ///// Customer Controls /////
 searchButton.addEventListener('click', checkInputs);
 
