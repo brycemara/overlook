@@ -2,7 +2,7 @@ import chai from 'chai';
 const expect = chai.expect;
 
 import User from '../src/User';
-import { sampleData } from './sampleData'
+import { sampleData } from './sampleData';
 
 describe('User', () => {
 let user;
@@ -24,17 +24,21 @@ let user;
   });
 
   it('should have booking data', () => {
-    expect(user.bookings.length).to.equal(7);
+    expect(user.bookings.length).to.equal(8);
   });
 
   it('should have user data', () => {
     expect(user.userData.length).to.equal(6);
   });
 
+  it('should have an initial total spent of zero', () => {
+    expect(user.totalSpent).to.equal(0);
+  });
+
   it('should be able to search available bookings', () => {
     let searchResults = user.searchAvailibility("2020/04/22")
 
-    expect(searchResults.length).to.deep.equal(6);
+    expect(searchResults.length).to.deep.equal(5);
   });
 
   it('should be able to find booked rooms', () => {
@@ -46,7 +50,14 @@ let user;
   it('should be able to calculate total amount spent', () => {
     user.calculateTotalAmountSpent(sampleData.bookingData);
 
-    expect(user.totalSpent).to.equal('431.85');
+    expect(user.totalSpent).to.equal('693.11');
+  });
+
+  it('should be able to calculate total amount spent of different bookings', () => {
+    let userBookings = user.getUserBookings(9);
+    user.calculateTotalAmountSpent(userBookings);
+
+    expect(user.totalSpent).to.equal('492.72');
   });
 
   it('should be able to get a specific users bookings', () => {
@@ -60,4 +71,10 @@ let user;
     "roomServiceCharges": []
     }]);
   });
-});
+
+  it('should be able to get a different users bookings', () => {
+    let userBookings = user.getUserBookings(9);
+
+    expect(userBookings.length).to.equal(2);
+  });
+})

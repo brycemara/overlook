@@ -17,7 +17,7 @@ describe('domUpdates', () => {
 
   before(() => {
     global.domUpdates = {};
-    chai.spy.on(domUpdates, ['displayManagerLogin', 'displayCalculatedRevenue', 'displayedPercentOccupied', 'getTodaysDate', 'createRoomBlocks', 'createBookingCards', 'updateSearchResultsCount', 'updateCustomerSpending', 'updateSpendingResultsCounter'], () => {})
+    chai.spy.on(domUpdates, ['displayManagerLogin', 'displayCalculatedRevenue', 'displayedPercentOccupied', 'getTodaysDate', 'compareDates', 'createRoomBlocks', 'createBookingCards', 'updateSearchResultsCount', 'updateCustomerSpending', 'updateSpendingResultsCounter'], () => {})
   });
 
   beforeEach(() => {
@@ -57,6 +57,13 @@ describe('domUpdates', () => {
 
     expect(domUpdates.getTodaysDate).to.have.been.called(1);
     expect(domUpdates.getTodaysDate).to.have.been.called.with();
+  });
+
+  it('should be able to check if date is in past or future', () => {
+    domUpdates.compareDates(date);
+
+    expect(domUpdates.compareDates).to.have.been.called(1);
+    expect(domUpdates.compareDates).to.have.been.called.with(date);
   });
 
   it('should be able to create room blocks', () => {

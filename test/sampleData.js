@@ -59,7 +59,7 @@ export const sampleData = {
   "costPerNight": 397.02
   },
   {
-  "number": 7,
+  "number": 15,
   "roomType": "single room",
   "bidet": false,
   "bedSize": "queen",
@@ -67,7 +67,7 @@ export const sampleData = {
   "costPerNight": 231.46
   },
   {
-  "number": 8,
+  "number": 17,
   "roomType": "junior suite",
   "bidet": false,
   "bedSize": "king",
@@ -92,6 +92,13 @@ export const sampleData = {
   "roomServiceCharges": []
   },
   {
+  "id": "5fwrgu4i7k55hl6sz",
+  "userID": 9,
+  "date": "2020/04/21",
+  "roomNumber": 17,
+  "roomServiceCharges": []
+  },
+  {
   "id": "5fwrgu4i7k55hl6t5",
   "userID": 43,
   "date": "2020/04/22",
@@ -107,7 +114,7 @@ export const sampleData = {
   },
   {
   "id": "5fwrgu4i7k55hl6t7",
-  "userID": 20,
+  "userID": 3,
   "date": "2020/02/16",
   "roomNumber": 7,
   "roomServiceCharges": []

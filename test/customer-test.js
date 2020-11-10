@@ -1,9 +1,8 @@
 import chai from 'chai';
 const expect = chai.expect;
 
-import User from '../src/User';
 import Customer from '../src/Customer';
-import { sampleData } from './sampleData'
+import { sampleData } from './sampleData';
 
 
 describe('Customer', () => {
@@ -33,6 +32,13 @@ describe('Customer', () => {
     let searchResults = customer.searchAvailibility("2020/04/22");
     let filteredResults = customer.filterByRoomType("single room", searchResults);
 
-    expect(filteredResults.length).to.equal(3)
+    expect(filteredResults.length).to.equal(2)
+  });
+
+  it('should be able filter by any room type', () => {
+    let searchResults = customer.searchAvailibility("2020/04/22");
+    let filteredResults = customer.filterByRoomType("residential suite", searchResults);
+
+    expect(filteredResults.length).to.equal(1)
   });
 });
