@@ -97,6 +97,10 @@ function checkInputs() {
   let dateSearchResults = customer.searchAvailibility(date);
   let filterResults = getFilterResults(dateSearchResults);
   searchResults.innerText = "";
+  if(filterResults.length === 0) {
+    alert("We are so so sorry there are no rooms avaiable for that date & room type!")
+    return;
+  }
   filterResults.forEach((room) => {
     searchResults.insertAdjacentHTML('beforeend', domUpdates.createRoomBlocks(room, date));
   });
