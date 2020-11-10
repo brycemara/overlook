@@ -159,38 +159,18 @@ let bookingData;
     expect(user.userData.length).to.equal(6);
   });
 
-//TODO: Sad Path, waht if entry is wrong?
   it('should be able to search available bookings', () => {
     let searchResults = user.searchAvailibility("2020/04/22")
 
     expect(searchResults.length).to.deep.equal(8);
   });
 
-  it('should be able to book a room', () => {
-    let bookedRoom = user.bookRoom(12, 1, "2020/02/05");
+  it('should be able to find booked rooms', () => {
+    let searchResults = user.findBookedRooms("2020/04/22")
 
-    expect(bookedRoom).to.deep.equal({
-    "id": "5fwrgu4i7k55hl6t8",
-    "userID": 1,
-    "date": "2020/02/05",
-    "roomNumber": 12,
-    "roomServiceCharges": []
-    });
+    expect(searchResults.length).to.deep.equal(3);
   });
 
-  it('should be able to cancel a room', () => {
-    let canceledRoom = user.cancelRoom(12, 1, "2020/02/05");
-
-    expect(canceledRoom).to.deep.equal({
-    "id": "5fwrgu4i7k55hl6t8",
-    "userID": 1,
-    "date": "2020/02/05",
-    "roomNumber": 12,
-    "roomServiceCharges": []
-    });
-  });
-
-//TODO: Test for is their are roomServiceCharges?
   it('should be able to calculate total amount spent', () => {
     user.calculateTotalAmountSpent(bookingData);
 

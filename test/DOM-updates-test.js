@@ -5,7 +5,7 @@ const spies = require('chai-spies');
 chai.use(spies);
 
 
-describe.only('domUpdates', () => {
+describe('domUpdates', () => {
   let manager;
   let room;
   let date;

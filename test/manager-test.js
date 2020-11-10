@@ -73,28 +73,7 @@ describe('Manager', () => {
       "bedSize": "queen",
       "numBeds": 1,
       "costPerNight": 397.02
-      },{
-      "number": 7,
-      "roomType": "single room",
-      "bidet": false,
-      "bedSize": "queen",
-      "numBeds": 2,
-      "costPerNight": 231.46
-      },{
-      "number": 8,
-      "roomType": "junior suite",
-      "bidet": false,
-      "bedSize": "king",
-      "numBeds": 1,
-      "costPerNight": 261.26
-      }, {
-      "number": 9,
-      "roomType": "single room",
-      "bidet": true,
-      "bedSize": "queen",
-      "numBeds": 1,
-      "costPerNight": 200.39
-      }]
+    }];
     bookingData = [{
       "id": "5fwrgu4i7k55hl6sz",
       "userID": 9,
@@ -160,4 +139,16 @@ describe('Manager', () => {
     "roomServiceCharges": []
     }])
   });
+
+  it('should be able to calculate percent occupied', () => {
+    let percentOccupied = manager.getPercentOccupied("2020/02/14");
+
+    expect(percentOccupied).to.equal('14.29')
+  })
+
+  it('should calculate the dailey revenue', () => {
+    let calculatedRevenue = manager.calculateDailyRevenue("2020/02/14")
+
+    expect(calculatedRevenue).to.equal(2493.55)
+  })
 });
