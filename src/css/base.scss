@@ -1,4 +1,3 @@
-/* This is an example of using Sass, otherwise plain CSS works too*/
 @import 'variables';
 
 @mixin flexDisplay($direction) {
@@ -14,6 +13,12 @@
 @mixin alignCenter($margin) {
   text-align: center;
   margin: $margin;
+}
+
+@mixin divStyling() {
+  padding: 5px;
+  background-color: $gold-background;
+  box-shadow: 0px 0px 10px $white;
 }
 
 body {
@@ -44,14 +49,10 @@ h3 {
   margin: 20px;
   height: 300px;
   width: 250px;
-  border: white 1px solid;
+  border: $white 1px solid;
   background-color: $avaible-room-color;
   opacity: .9;
   box-shadow: 3px 3px 10px $black;
-}
-
-.avaiable-bookings {
-  @include alignCenter(1vw);
 }
 
 #avaiable-rooms-date {
@@ -59,7 +60,7 @@ h3 {
 }
 
 .avaiable-results {
-  @include overflow(583px)
+  @include overflow(470px);
   @include flexDisplay(column);
   align-items: center;
 }
@@ -71,6 +72,17 @@ h3 {
 .booking-section {
   height: 100%;
   width: 40%;
+  .total-revenue {
+    @include alignCenter(1.5vw);
+    @include divStyling();
+  }
+  .hotel-percent-occupied {
+    @include alignCenter(1vw);
+    @include divStyling();
+  }
+  .avaiable-bookings {
+    @include alignCenter(1vw);
+  }
 }
 
 .booking-card {
@@ -79,10 +91,6 @@ h3 {
   padding: 10px 20px;
   margin: 30px;
   box-shadow: 3px 3px 10px $black;
-}
-
-.cancel-room {
-  cursor: pointer;
 }
 
 .container {
@@ -97,7 +105,7 @@ h3 {
   background-color: $dashboard-color;
 }
 
-#date-input {
+#date-input, .cancel-room, .login-button, .search-avaiable-rooms, .search-button, .search-customer-bookings {
   cursor: pointer;
 }
 
@@ -136,10 +144,6 @@ input[type=text], input[type=password] {
   text-shadow: 1px 1px $room-card-color;
 }
 
-.login-button {
-  cursor: pointer;
-}
-
 .login-form {
   @include flexDisplay(row);
   justify-content: center;
@@ -150,14 +154,6 @@ input[type=text], input[type=password] {
   justify-content: space-around;
   margin: 5vw;
   background-color: $dashboard-color;
-}
-
-.total-revenue {
-  @include alignCenter(1.5vw)
-}
-
-.hotel-percent-occupied {
-  @include alignCenter(1vw)
 }
 
 #room-image {
@@ -184,28 +180,15 @@ input[type=text], input[type=password] {
   width: 220px;
 }
 
-.search-avaiable-rooms {
-  cursor: pointer;
-}
-
-.search-button {
-  cursor: pointer;
-}
-
-.search-customer-bookings {
-  cursor: pointer;
-}
-
 .search-section {
   width: 60%;
   margin: 1vw;
-}
-
-.search-results {
-  @include overflow(500px)
-  @include flexDisplay(row);
-  flex-wrap: wrap;
-  justify-content: center;
+  .search-results {
+    @include overflow(600px);
+    @include flexDisplay(row);
+    flex-wrap: wrap;
+    justify-content: center;
+  }
 }
 
 .spending-results {
@@ -213,15 +196,15 @@ input[type=text], input[type=password] {
 }
 
 .user-bookings {
-  @include overflow(500px)
+  @include overflow(500px);
   text-align: center;
 }
 
 .user-results {
-  @include overflow(695px)
+  @include overflow(695px);
 }
 
 .user-spending {
-  padding: 16px;
-  @include alignCenter(1vw)
+  @include alignCenter(1vw);
+  @include divStyling();
 }
