@@ -20,7 +20,7 @@ class Manager extends User {
       totalReveune += room.costPerNight;
       return totalReveune;
     }, 0);
-    return revenue;
+    return revenue.toFixed(2);
   }
 };
 export default Manager;
