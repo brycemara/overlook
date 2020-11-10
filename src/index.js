@@ -36,29 +36,20 @@ const suiteOption = document.querySelector('.suite');
 const juniorSuiteOption = document.querySelector('.junior-suite');
 const resSuiteOption = document.querySelector('.residential-suite');
 
-
 const searchResults = document.querySelector('.search-results');
-// let bookRoomButtons = document.getElementsByClassName('book-room');
-// let cancelRoomButtons = document.getElementsByClassName('cancel-room');
 
 const searchUserBookingsButton = document.querySelector('.search-customer-bookings');
-// const searchOccupied = document.querySelector('.search-hotel-percent-occupied');
 const searchAvailableRoomsButton = document.querySelector('.search-avaiable-rooms');
-// const calculateRevenueButton = document.querySelector('.calculate-revenue');
-
 
 window.onload = reAssignData();
 loginButton.addEventListener('click', checkLogin);
 
 ///// Customer Controls /////
 searchButton.addEventListener('click', checkInputs);
-searchUserBookingsButton.addEventListener('click', displaySearchedCustomer);
-// bookRoomButton.forEach(button => button.addEventListener('click', bookARoom))
 
 ///// Manager Controls /////
-// searchOccupied.addEventListener('click', searchOccupiedByDate);
 searchAvailableRoomsButton.addEventListener('click', displayAvaiableRooms);
-// calculateRevenueButton.addEventListener('click', displayCalculatedRevenue);
+searchUserBookingsButton.addEventListener('click', displaySearchedCustomer);
 
 function checkLogin() {
   if (userNameInput.value === 'manager' && passwordInput.value === 'overlook2020') {
@@ -125,12 +116,15 @@ function checkInputs() {
   addBookedRoomsEventListener();
 }
 
-function addBookedRoomsEventListener() {
-  let bookRoomButtons = document.getElementsByClassName('book-room');
-  for(let i=0; i < bookRoomButtons.length; i++) {
-    bookRoomButtons[i].addEventListener('click', bookARoom);
-  }
+function displayUpdatedCustomerBookings() {
+  document.querySelector('.user-bookings').innerHTML = ""
+  customer.bookings = bookingData;
+  customerBookingsDisplay();
 }
+
+
+////////////////////////////////BOOK & CANCEL ROOMS////////////////////////////////
+
 
 function bookARoom(e) {
   let roomNumber = parseInt(e.target.id);
@@ -151,19 +145,14 @@ function bookARoom(e) {
     let formattedDate = date.split(/[-]+/).join('/');
     fetchApi.postBookingData(roomNumber, userID, formattedDate, onManagerSuccess);
   }
-}
-
-function cancelRoomsEventListener() {
-  let cancelRoomButtons = document.getElementsByClassName('cancel-room');
-  for(let i=0; i < cancelRoomButtons.length; i++) {
-    cancelRoomButtons[i].addEventListener('click', cancelARoom);
-  }
+  alert("You've successfuly booked a room!")
 }
 
 function cancelARoom(e) {
   let roomNumber = parseInt(e.target.id);
   let userID = customer.id;
   let date = e.target.value;
+  // compare dates
   let formattedDate = date.split(/[-]+/).join('/');
   let booking = bookingData.find(booking => booking.roomNumber === roomNumber && booking.userID === userID && booking.date === formattedDate)
   let onCustomerSuccess = () => {
@@ -177,15 +166,21 @@ function cancelARoom(e) {
   } else {
     fetchApi.deleteBookingData(booking, onManagerSuccess);
   }
+  alert("You've successfuly canceled a room!")
 }
 
-function updateManagerSearchResults() {
-  fetchedBookingData = fetchApi.fetchBookingData();
-  fetchedBookingData.then(value => {
-   bookingData = value
-   })
-   .then(() => displayUpdatedSearchedCustomer())
-   .catch(error => console.log(error.message))
+function addBookedRoomsEventListener() {
+  let bookRoomButtons = document.getElementsByClassName('book-room');
+  for(let i=0; i < bookRoomButtons.length; i++) {
+    bookRoomButtons[i].addEventListener('click', bookARoom);
+  }
+}
+
+function cancelRoomsEventListener() {
+  let cancelRoomButtons = document.getElementsByClassName('cancel-room');
+  for(let i=0; i < cancelRoomButtons.length; i++) {
+    cancelRoomButtons[i].addEventListener('click', cancelARoom);
+  }
 }
 
 function updateBookingData() {
@@ -197,10 +192,22 @@ function updateBookingData() {
   .catch(error => console.log(error.message))
 }
 
-function displayUpdatedCustomerBookings() {
-  document.querySelector('.user-bookings').innerHTML = ""
-  customer.bookings = bookingData;
-  customerBookingsDisplay();
+function updateManagerSearchResults() {
+  fetchedBookingData = fetchApi.fetchBookingData();
+  fetchedBookingData.then(value => {
+   bookingData = value
+   })
+   .then(() => displayUpdatedSearchedCustomer())
+   .catch(error => console.log(error.message))
+}
+
+function updateAvaiableRooms() {
+  fetchedBookingData = fetchApi.fetchBookingData();
+  fetchedBookingData.then(value => {
+   bookingData = value
+   })
+   .then(() => displayUpdatedAvaiableRooms())
+   .catch(error => console.log(error.message))
 }
 
 ////////////////////////////////MANAGER LOGIN////////////////////////////////
@@ -215,51 +222,6 @@ function displayManagerLogin() {
   document.querySelector('.manager-dashboard').classList.remove('hidden');
   displayCalculatedRevenue();
   displayedPercentOccupied();
-}
-
-function displayedPercentOccupied() {
-  let date = getTodaysDate();
-  document.querySelector('.percent-occupied').innerText = `${manager.getPercentOccupied(date)}%`;
-}
-
-function displaySearchedCustomer() {
-  let user = getCusomterInfo('customer-name');
-  if (userData.includes(user)) {
-    customer = new Customer(roomData, bookingData, userData, user)
-    displayCustomerBookings();
-  } else {
-    document.querySelector('.user-results').innerHTML = "";
-    alert('Customer infomation not found.')
-  }
-}
-
-function displayUpdatedSearchedCustomer() {
-  document.querySelector('.user-results').innerHTML = "";
-  customer.bookings = bookingData;
-  displayCustomerBookings();
-}
-
-function getCusomterInfo(elementID) {
-  let customerName = document.getElementById(elementID).value;
-  let formattedCustomerName = formatCustomerName(customerName);
-  let customer = userData.find(user => user.name === formattedCustomerName);
-  return customer;
-}
-
-function formatCustomerName(customerName) {
-  let words = customerName.split(" ")
-  let firstName = words[0][0].toUpperCase() + words[0].substring(1);
-  let lastName = words[1][0].toUpperCase() + words[1].substring(1);
-  let formattedName = firstName.concat(" " + lastName);
-  return formattedName;
-}
-
-function displayCustomerBookings() {
-  let customerBookings = customer.getUserBookings(customer.id);
-  customerBookings.forEach((booking) => {
-    document.querySelector('.user-results').insertAdjacentHTML('beforeend', createBookingCards(booking));
-  });
-  cancelRoomsEventListener();
 }
 
 function getTodaysDate() {
@@ -277,6 +239,45 @@ function displayCalculatedRevenue() {
   document.querySelector('.revenue-today').innerText = `$${revenue}`;
 }
 
+function displayedPercentOccupied() {
+  let date = getTodaysDate();
+  document.querySelector('.percent-occupied').innerText = `${manager.getPercentOccupied(date)}%`;
+}
+
+function getCusomterInfo(elementID) {
+  let customerName = document.getElementById(elementID).value;
+  let formattedCustomerName = formatCustomerName(customerName);
+  let customer = userData.find(user => user.name === formattedCustomerName);
+  return customer;
+}
+
+function formatCustomerName(customerName) {
+  let words = customerName.split(" ")
+  let firstName = words[0][0].toUpperCase() + words[0].substring(1);
+  let lastName = words[1][0].toUpperCase() + words[1].substring(1);
+  let formattedName = firstName.concat(" " + lastName);
+  return formattedName;
+}
+
+function displaySearchedCustomer() {
+  let user = getCusomterInfo('customer-name');
+  if (userData.includes(user)) {
+    customer = new Customer(roomData, bookingData, userData, user)
+    displayCustomerBookings();
+  } else {
+    document.querySelector('.user-results').innerHTML = "";
+    alert('Customer infomation not found.')
+  }
+}
+
+function displayCustomerBookings() {
+  let customerBookings = customer.getUserBookings(customer.id);
+  customerBookings.forEach((booking) => {
+    document.querySelector('.user-results').insertAdjacentHTML('beforeend', createBookingCards(booking));
+  });
+  cancelRoomsEventListener();
+}
+
 function displayAvaiableRooms() {
   let user = getCusomterInfo('customer-name-avaiable');
   customer = new Customer(roomData, bookingData, userData, user)
@@ -288,28 +289,16 @@ function displayAvaiableRooms() {
   addBookedRoomsEventListener();
 }
 
-function updateAvaiableRooms() {
-  fetchedBookingData = fetchApi.fetchBookingData();
-  fetchedBookingData.then(value => {
-   bookingData = value
-   })
-   .then(() => displayUpdatedAvaiableRooms())
-   .catch(error => console.log(error.message))
-}
-
 function displayUpdatedAvaiableRooms() {
   document.querySelector('.avaiable-results').innerHTML = "";
-  debugger
-  console.log(customer.bookings)
   customer.bookings = bookingData;
-  console.log(customer.bookings)
   displayAvaiableRooms();
-  // let date = document.getElementById('avaiable-rooms-date').value;
-  // let avaibleRooms = manager.searchAvailibility(date);
-  // avaibleRooms.forEach((room) => {
-  //   document.querySelector('.avaiable-results').insertAdjacentHTML('beforeend', createRoomBlocks(room, date));
-  // });
-  // addBookedRoomsEventListener();
+}
+
+function displayUpdatedSearchedCustomer() {
+  document.querySelector('.user-results').innerHTML = "";
+  customer.bookings = bookingData;
+  displayCustomerBookings();
 }
 
 
