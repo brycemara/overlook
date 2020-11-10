@@ -1,7 +1,6 @@
 import './css/base.scss';
 
 // An example of how you tell webpack to use an image (also need to link to it in the index.html)
-// import './images/hotel-california.jpeg'
 
 import User from './User';
 import Customer from './Customer';
@@ -134,14 +133,13 @@ function bookARoom(e) {
 
   }
   checkWhatToBook(roomNumber, userID, onCustomerSuccess, onManagerSuccess)
-  // alert("You've successfuly booked a room!")
 }
 
 function checkWhatToBook(roomNumber, userID, onCustomerSuccess, onManagerSuccess) {
   if(!manager) {
     let date = document.getElementById('date-input').value;
     let formattedDate = date.split(/[-]+/).join('/');
-    if(compareDates(date)) {
+    if(compareDates(formattedDate)) {
       alert("You cannot cancel a booking from the past");
       return;
     }
@@ -150,7 +148,6 @@ function checkWhatToBook(roomNumber, userID, onCustomerSuccess, onManagerSuccess
   } else {
     let date = document.getElementById('avaiable-rooms-date').value;
     let formattedDate = date.split(/[-]+/).join('/');
-
     fetchApi.postBookingData(roomNumber, userID, formattedDate, onManagerSuccess);
     alert("You've successfuly booked a room!")
   }
@@ -292,14 +289,19 @@ function displayCustomerBookings() {
 }
 
 function displayAvaiableRooms() {
+  document.querySelector('.avaiable-results').innerHTML = "";
   let user = getCusomterInfo('customer-name-avaiable');
   customer = new Customer(roomData, bookingData, userData, user)
   let date = document.getElementById('avaiable-rooms-date').value;
   let formattedDate = date.split(/[-]+/).join('/');
   if(compareDates(formattedDate)) {
-    alert("You cannot cancel a booking from the past");
+    alert("No avaiable bookings in the past.");
     return;
   }
+  createAvailableRooms(date);
+}
+
+function createAvailableRooms(date) {
   let avaibleRooms = manager.searchAvailibility(date);
   avaibleRooms.forEach((room) => {
     document.querySelector('.avaiable-results').insertAdjacentHTML('beforeend', domUpdates.createRoomBlocks(room, date));
