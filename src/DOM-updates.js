@@ -25,7 +25,7 @@ let domUpdates = {
   createRoomBlocks(room, date) {
     const roomBlock =
     `<div class="avaiable-room">
-      <img id="room-image" src="https://placeimg.com/250/175/any" alt="Room">
+      <img id="room-image" src='http://i2.cdn.cnn.com/cnnnext/dam/assets/130212160829-romantic-hotel-rooms-sandals-st-lucia-view-horizontal-large-gallery.jpg' alt="Room">
       <h3 id="room-image-name-card">${room.roomType} #${room.number}</h3>
       <p  class="room-image-price">This room has ${room.numBeds} ${room.bedSize} beds. The price of this room is $${room.costPerNight} per night.</p>
       <button id=${room.number} class="book-room" type="button">Book Room</button>
