@@ -152,7 +152,10 @@ function cancelARoom(e) {
   let roomNumber = parseInt(e.target.id);
   let userID = customer.id;
   let date = e.target.value;
-  // compare dates
+  if(compareDates(date)) {
+    alert("You cannot cancel a booking from the past");
+    return;
+  }
   let formattedDate = date.split(/[-]+/).join('/');
   let booking = bookingData.find(booking => booking.roomNumber === roomNumber && booking.userID === userID && booking.date === formattedDate)
   let onCustomerSuccess = () => {
@@ -229,8 +232,18 @@ function getTodaysDate() {
   let dd = String(today.getDate()).padStart(2, '0');
   let mm = String(today.getMonth() + 1).padStart(2, '0');
   let yyyy = today.getFullYear();
-  today = mm + '/' + dd + '/' + yyyy;
+  today = yyyy + '/' + mm + '/' + dd;
   return today;
+}
+
+function compareDates(date) {
+  // is the date in the past?
+  let today = getTodaysDate();
+  if(today > date) {
+  return true;
+  } else {
+  return false;
+  }
 }
 
 function displayCalculatedRevenue() {
