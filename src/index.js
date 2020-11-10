@@ -42,9 +42,9 @@ const searchResults = document.querySelector('.search-results');
 // let cancelRoomButtons = document.getElementsByClassName('cancel-room');
 
 const searchUserBookingsButton = document.querySelector('.search-customer-bookings');
-const searchOccupied = document.querySelector('.search-hotel-percent-occupied');
+// const searchOccupied = document.querySelector('.search-hotel-percent-occupied');
 const searchAvailableRoomsButton = document.querySelector('.search-avaiable-rooms');
-const calculateRevenueButton = document.querySelector('.calculate-revenue');
+// const calculateRevenueButton = document.querySelector('.calculate-revenue');
 
 
 window.onload = reAssignData();
@@ -56,9 +56,9 @@ searchUserBookingsButton.addEventListener('click', displaySearchedCustomer);
 // bookRoomButton.forEach(button => button.addEventListener('click', bookARoom))
 
 ///// Manager Controls /////
-searchOccupied.addEventListener('click', searchOccupiedByDate);
+// searchOccupied.addEventListener('click', searchOccupiedByDate);
 searchAvailableRoomsButton.addEventListener('click', displayAvaiableRooms);
-calculateRevenueButton.addEventListener('click', displayCalculatedRevenue);
+// calculateRevenueButton.addEventListener('click', displayCalculatedRevenue);
 
 function checkLogin() {
   if (userNameInput.value === 'manager' && passwordInput.value === 'overlook2020') {
@@ -133,18 +133,24 @@ function addBookedRoomsEventListener() {
 }
 
 function bookARoom(e) {
-  let searchedUser;
-  if(!customer) {
-    searchedUser = getCusomterInfo();
-  }
   let roomNumber = parseInt(e.target.id);
-  let userID = (customer == undefined) ? searchedUser.id : customer.id;
-  let date = document.getElementById('date-input').value;
-  let formattedDate = date.split(/[-]+/).join('/');
-  let onSuccess = () => {
+  let userID = customer.id;
+  let onCustomerSuccess = () => {
     updateBookingData();
   }
-  fetchApi.postBookingData(roomNumber, userID, formattedDate, onSuccess);
+  let onManagerSuccess = () => {
+    updateAvaiableRooms()
+
+  }
+  if(!manager) {
+    let date = document.getElementById('date-input').value;
+    let formattedDate = date.split(/[-]+/).join('/');
+    fetchApi.postBookingData(roomNumber, userID, formattedDate, onCustomerSuccess);
+  } else {
+    let date = document.getElementById('avaiable-rooms-date').value;
+    let formattedDate = date.split(/[-]+/).join('/');
+    fetchApi.postBookingData(roomNumber, userID, formattedDate, onManagerSuccess);
+  }
 }
 
 function cancelRoomsEventListener() {
@@ -207,15 +213,17 @@ function instantiateManager() {
 function displayManagerLogin() {
   document.querySelector('.login-form').classList.add('hidden');
   document.querySelector('.manager-dashboard').classList.remove('hidden');
+  displayCalculatedRevenue();
+  displayedPercentOccupied();
 }
 
-function searchOccupiedByDate() {
-  let date = document.getElementById('.date-input-occupied').value;
+function displayedPercentOccupied() {
+  let date = getTodaysDate();
   document.querySelector('.percent-occupied').innerText = `${manager.getPercentOccupied(date)}%`;
 }
 
 function displaySearchedCustomer() {
-  let user = getCusomterInfo();
+  let user = getCusomterInfo('customer-name');
   if (userData.includes(user)) {
     customer = new Customer(roomData, bookingData, userData, user)
     displayCustomerBookings();
@@ -231,8 +239,8 @@ function displayUpdatedSearchedCustomer() {
   displayCustomerBookings();
 }
 
-function getCusomterInfo() {
-  let customerName = document.getElementById('customer-name').value;
+function getCusomterInfo(elementID) {
+  let customerName = document.getElementById(elementID).value;
   let formattedCustomerName = formatCustomerName(customerName);
   let customer = userData.find(user => user.name === formattedCustomerName);
   return customer;
@@ -248,21 +256,30 @@ function formatCustomerName(customerName) {
 
 function displayCustomerBookings() {
   let customerBookings = customer.getUserBookings(customer.id);
-  console.log(customerBookings)
   customerBookings.forEach((booking) => {
     document.querySelector('.user-results').insertAdjacentHTML('beforeend', createBookingCards(booking));
   });
-  debugger
   cancelRoomsEventListener();
 }
 
+function getTodaysDate() {
+  let today = new Date();
+  let dd = String(today.getDate()).padStart(2, '0');
+  let mm = String(today.getMonth() + 1).padStart(2, '0');
+  let yyyy = today.getFullYear();
+  today = mm + '/' + dd + '/' + yyyy;
+  return today;
+}
+
 function displayCalculatedRevenue() {
-  let date = document.getElementById('.date-input-revenue').value;
+  let date = getTodaysDate()
   let revenue = manager.calculateDailyRevenue(date);
-  document.querySelector('.revenue').innerText = `$${revenue}`;
+  document.querySelector('.revenue-today').innerText = `$${revenue}`;
 }
 
 function displayAvaiableRooms() {
+  let user = getCusomterInfo('customer-name-avaiable');
+  customer = new Customer(roomData, bookingData, userData, user)
   let date = document.getElementById('avaiable-rooms-date').value;
   let avaibleRooms = manager.searchAvailibility(date);
   avaibleRooms.forEach((room) => {
@@ -270,6 +287,31 @@ function displayAvaiableRooms() {
   });
   addBookedRoomsEventListener();
 }
+
+function updateAvaiableRooms() {
+  fetchedBookingData = fetchApi.fetchBookingData();
+  fetchedBookingData.then(value => {
+   bookingData = value
+   })
+   .then(() => displayUpdatedAvaiableRooms())
+   .catch(error => console.log(error.message))
+}
+
+function displayUpdatedAvaiableRooms() {
+  document.querySelector('.avaiable-results').innerHTML = "";
+  debugger
+  console.log(customer.bookings)
+  customer.bookings = bookingData;
+  console.log(customer.bookings)
+  displayAvaiableRooms();
+  // let date = document.getElementById('avaiable-rooms-date').value;
+  // let avaibleRooms = manager.searchAvailibility(date);
+  // avaibleRooms.forEach((room) => {
+  //   document.querySelector('.avaiable-results').insertAdjacentHTML('beforeend', createRoomBlocks(room, date));
+  // });
+  // addBookedRoomsEventListener();
+}
+
 
 ////////////////////////////////PURE DOM/////////////////////////////////
 
