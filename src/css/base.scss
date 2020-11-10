@@ -7,6 +7,10 @@ $primary-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,1
   font-family: 'Varela Round', sans-serif;
 }
 
+h3 {
+  text-align: center;
+}
+
 *::-webkit-scrollbar-track {
   border-radius: 10px;
   -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);

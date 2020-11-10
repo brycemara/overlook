@@ -1,38 +1,5 @@
-
 let domUpdates = {
-  addBookedRoomsEventListener() {
-    let bookRoomButtons = document.getElementsByClassName('book-room');
-    for(let i=0; i < bookRoomButtons.length; i++) {
-      bookRoomButtons[i].addEventListener('click', bookARoom);
-    }
-  },
-  cancelRoomsEventListener() {
-    let cancelRoomButtons = document.getElementsByClassName('cancel-room');
-    for(let i=0; i < cancelRoomButtons.length; i++) {
-      cancelRoomButtons[i].addEventListener('click', cancelARoom);
-    }
-  },
-  customerDisplayLogin(customer) {
-    document.querySelector('.login-form').classList.add('hidden');
-    document.querySelector('.customer-dashboard').classList.remove('hidden');
-    document.querySelector('.welcome').innerText = `Welcome ${customer.name}, to the Hotel California!`
-    document.querySelector('.customer-spending').innerText = `$${customer.totalSpent}`;
-    searchResults.innerHTML = "<h4> Please select a room type and date to search available bookings!</h4>";
-    domUpdates.customerBookingsDisplay(customer, roomData);
-  },
-  customerBookingsDisplay(customer, roomData) {
-    let customerBookings = customer.getUserBookings(customer.id)
-    customerBookings.forEach((booking) => {
-      document.querySelector('.user-bookings').insertAdjacentHTML('beforeend', createBookingCards(booking, roomData));
-    });
-    domUpdates.cancelRoomsEventListener();
-  },
-  displayUpdatedCustomerBookings(customer, bookingData) { ///////////******/////////////
-    document.querySelector('.user-bookings').innerHTML = ""
-    customer.bookings = bookingData;
-    domUpdates.customerBookingsDisplay(customer);
-  },
-  displayManagerLogin() {
+  displayManagerLogin(manager) {
     document.querySelector('.login-form').classList.add('hidden');
     document.querySelector('.manager-dashboard').classList.remove('hidden');
     domUpdates.displayCalculatedRevenue(manager);
@@ -46,43 +13,6 @@ let domUpdates = {
   displayedPercentOccupied(manager) {
     let date = domUpdates.getTodaysDate();
     document.querySelector('.percent-occupied').innerText = `${manager.getPercentOccupied(date)}%`;
-  },
-  // displaySearchedCustomer() {
-  //   let user = domUpdates.getCusomterInfo('customer-name');
-  //   if (userData.includes(user)) {
-  //     customer = new Customer(roomData, bookingData, userData, user)
-  //     domUpdates.displayCustomerBookings();
-  //   } else {
-  //     document.querySelector('.user-results').innerHTML = "";
-  //     alert('Customer infomation not found.')
-  //   }
-  // }
-  displayCustomerBookings(customer, roomData) {
-    let customerBookings = customer.getUserBookings(customer.id);
-    customerBookings.forEach((booking) => {
-      document.querySelector('.user-results').insertAdjacentHTML('beforeend', domUpdates.createBookingCards(booking, roomData));
-    });
-    domUpdates.cancelRoomsEventListener();
-  },
-  // displayAvaiableRooms() {
-  //   let user = getCusomterInfo('customer-name-avaiable');
-  //   customer = new Customer(roomData, bookingData, userData, user)
-  //   let date = document.getElementById('avaiable-rooms-date').value;
-  //   let avaibleRooms = manager.searchAvailibility(date);
-  //   avaibleRooms.forEach((room) => {
-  //     document.querySelector('.avaiable-results').insertAdjacentHTML('beforeend', domUpdates.createRoomBlocks(room, date));
-  //   });
-  //   domUpdates.addBookedRoomsEventListener();
-  // }
-  displayUpdatedAvaiableRooms(customer, bookingData) {///////////******/////////////
-    document.querySelector('.avaiable-results').innerHTML = "";
-    customer.bookings = bookingData;
-    domUpdates.displayAvaiableRooms();
-  },
-  displayUpdatedSearchedCustomer(customer, bookingData) {///////////******/////////////
-    document.querySelector('.user-results').innerHTML = "";
-    customer.bookings = bookingData;
-    domUpdates.displayCustomerBookings(customer);
   },
   getTodaysDate() {
     let today = new Date();
@@ -119,6 +49,16 @@ let domUpdates = {
   updateSearchResultsCount(resultsCount) {
     document.querySelector('.results-count').innerText = `${resultsCount} Results`;
   },
+  updateCustomerSpending(customer) {
+    let customerData = customer.getUserBookings(customer.id);
+    customer.calculateTotalAmountSpent(customerData);
+    document.querySelector('.customer-spending').innerText = `$${customer.totalSpent}`;
+  },
+  updateSpendingResultsCounter(customer) {
+    let customerData = customer.getUserBookings(customer.id);
+    customer.calculateTotalAmountSpent(customerData);
+    document.querySelector('.spending-results').innerText = `${customer.name} has spent $${customer.totalSpent}.`
+  }
 }
 
 export {domUpdates};
