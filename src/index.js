@@ -38,8 +38,8 @@ const resSuiteOption = document.querySelector('.residential-suite');
 
 
 const searchResults = document.querySelector('.search-results');
-let bookRoomButtons = document.getElementsByClassName('book-room');
-let cancelRoomButtons = document.getElementsByClassName('cancel-room');
+// let bookRoomButtons = document.getElementsByClassName('book-room');
+// let cancelRoomButtons = document.getElementsByClassName('cancel-room');
 
 const searchUserBookingsButton = document.querySelector('.search-customer-bookings');
 const searchOccupied = document.querySelector('.search-hotel-percent-occupied');
@@ -92,10 +92,7 @@ function customerDisplayLogin(customer) {
   document.querySelector('.customer-dashboard').classList.remove('hidden');
   document.querySelector('.welcome').innerText = `Welcome ${customer.name}, to the Hotel California!`
   document.querySelector('.customer-spending').innerText = `$${customer.totalSpent}`;
-  // roomData.forEach((room) => {
-  //   searchResults.insertAdjacentHTML('beforeend', createRoomBlocks(room));
-  // });
-  updateSearchResultsCount(roomData.length);
+  searchResults.innerHTML = "<h4> Please select a room type and date to search available bookings!</h4>";
   customerBookingsDisplay();
 }
 
@@ -129,24 +126,29 @@ function checkInputs() {
 }
 
 function addBookedRoomsEventListener() {
+  let bookRoomButtons = document.getElementsByClassName('book-room');
   for(let i=0; i < bookRoomButtons.length; i++) {
     bookRoomButtons[i].addEventListener('click', bookARoom);
   }
 }
 
 function bookARoom(e) {
+  let searchedUser;
+  if(!customer) {
+    searchedUser = getCusomterInfo();
+  }
   let roomNumber = parseInt(e.target.id);
-  let userID = customer.id;
+  let userID = (customer == undefined) ? searchedUser.id : customer.id;
   let date = document.getElementById('date-input').value;
   let formattedDate = date.split(/[-]+/).join('/');
   let onSuccess = () => {
     updateBookingData();
   }
   fetchApi.postBookingData(roomNumber, userID, formattedDate, onSuccess);
-  console.log(bookingData)
 }
 
 function cancelRoomsEventListener() {
+  let cancelRoomButtons = document.getElementsByClassName('cancel-room');
   for(let i=0; i < cancelRoomButtons.length; i++) {
     cancelRoomButtons[i].addEventListener('click', cancelARoom);
   }
@@ -156,21 +158,43 @@ function cancelARoom(e) {
   let roomNumber = parseInt(e.target.id);
   let userID = customer.id;
   let date = e.target.value;
-  let booking = customer.cancelRoom(roomNumber, userID, date);
-  let onSuccess = () => {
+  let formattedDate = date.split(/[-]+/).join('/');
+  let booking = bookingData.find(booking => booking.roomNumber === roomNumber && booking.userID === userID && booking.date === formattedDate)
+  let onCustomerSuccess = () => {
     updateBookingData();
   }
-  fetchApi.deleteBookingData(booking, onSuccess);
-  console.log(bookingData)
+  let onManagerSuccess = () => {
+    updateManagerSearchResults();
+  }
+  if(!manager) {
+    fetchApi.deleteBookingData(booking, onCustomerSuccess);
+  } else {
+    fetchApi.deleteBookingData(booking, onManagerSuccess);
+  }
+}
+
+function updateManagerSearchResults() {
+  fetchedBookingData = fetchApi.fetchBookingData();
+  fetchedBookingData.then(value => {
+   bookingData = value
+   })
+   .then(() => displayUpdatedSearchedCustomer())
+   .catch(error => console.log(error.message))
 }
 
 function updateBookingData() {
  fetchedBookingData = fetchApi.fetchBookingData();
- fetchedBookingData
-  .then(value => {
+ fetchedBookingData.then(value => {
   bookingData = value
   })
+  .then(() => displayUpdatedCustomerBookings())
   .catch(error => console.log(error.message))
+}
+
+function displayUpdatedCustomerBookings() {
+  document.querySelector('.user-bookings').innerHTML = ""
+  customer.bookings = bookingData;
+  customerBookingsDisplay();
 }
 
 ////////////////////////////////MANAGER LOGIN////////////////////////////////
@@ -191,17 +215,24 @@ function searchOccupiedByDate() {
 }
 
 function displaySearchedCustomer() {
-  let customer = getCusomterInfo();
-  if (userData.includes(customer)) {
-    displayCustomerBookings(customer);
+  let user = getCusomterInfo();
+  if (userData.includes(user)) {
+    customer = new Customer(roomData, bookingData, userData, user)
+    displayCustomerBookings();
   } else {
     document.querySelector('.user-results').innerHTML = "";
     alert('Customer infomation not found.')
   }
 }
 
+function displayUpdatedSearchedCustomer() {
+  document.querySelector('.user-results').innerHTML = "";
+  customer.bookings = bookingData;
+  displayCustomerBookings();
+}
+
 function getCusomterInfo() {
-  let customerName = document.getElementById('.customer-name').value;
+  let customerName = document.getElementById('customer-name').value;
   let formattedCustomerName = formatCustomerName(customerName);
   let customer = userData.find(user => user.name === formattedCustomerName);
   return customer;
@@ -215,11 +246,14 @@ function formatCustomerName(customerName) {
   return formattedName;
 }
 
-function displayCustomerBookings(customer) {
-  let customerBookings = manager.getUserBookings(customer.id);
+function displayCustomerBookings() {
+  let customerBookings = customer.getUserBookings(customer.id);
+  console.log(customerBookings)
   customerBookings.forEach((booking) => {
     document.querySelector('.user-results').insertAdjacentHTML('beforeend', createBookingCards(booking));
   });
+  debugger
+  cancelRoomsEventListener();
 }
 
 function displayCalculatedRevenue() {
@@ -229,11 +263,12 @@ function displayCalculatedRevenue() {
 }
 
 function displayAvaiableRooms() {
-  let date = document.getElementById('.avaiable-rooms-date').value;
+  let date = document.getElementById('avaiable-rooms-date').value;
   let avaibleRooms = manager.searchAvailibility(date);
   avaibleRooms.forEach((room) => {
     document.querySelector('.avaiable-results').insertAdjacentHTML('beforeend', createRoomBlocks(room, date));
   });
+  addBookedRoomsEventListener();
 }
 
 ////////////////////////////////PURE DOM/////////////////////////////////
@@ -242,7 +277,7 @@ function createRoomBlocks(room, date) {
   const roomBlock =
   `<div class="avaiable-room">
     <img id="room-image" src="https://placeimg.com/250/175/any" alt="Room">
-    <h3 id="room-image-name-card">${room.roomType}</h3>
+    <h3 id="room-image-name-card">${room.roomType} #${room.number}</h3>
     <p  class="room-image-price">This room has ${room.numBeds} ${room.bedSize} beds. The price of this room is $${room.costPerNight} per night.</p>
     <button id=${room.number} class="book-room" type="button">Book Room</button>
   </div>`
@@ -250,13 +285,14 @@ function createRoomBlocks(room, date) {
 }
 
 function createBookingCards(booking) {
-  let room = roomData.find(room => booking.roomNumber === room.number)
+  let currentRoom = roomData.find(room => booking.roomNumber === room.number)
+  if (!currentRoom) return;
   var bookingCard = `
   <div class="booking-card">
     <div>
       <p>Booking on ${booking.date}.</p>
-      <p>${room.roomType} with ${room.numBeds} ${room.bedSize} at a price of $${room.costPerNight} per night.</p>
-      <button id=${room.number} value="${booking.date}" class="cancel-room" type="button" onclick="">Cancel Booking</button>
+      <p> ${currentRoom.roomType} with ${currentRoom.numBeds} ${currentRoom.bedSize} at a price of $${currentRoom.costPerNight} per night.</p>
+      <button id=${currentRoom.number} value="${booking.date}" class="cancel-room" type="button">Cancel Booking</button>
     </div>
   </div>
   `;
