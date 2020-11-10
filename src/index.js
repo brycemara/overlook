@@ -35,9 +35,7 @@ const singleRoomOption = document.querySelector('.single-room');
 const suiteOption = document.querySelector('.suite');
 const juniorSuiteOption = document.querySelector('.junior-suite');
 const resSuiteOption = document.querySelector('.residential-suite');
-
 const searchResults = document.querySelector('.search-results');
-
 const searchUserBookingsButton = document.querySelector('.search-customer-bookings');
 const searchAvailableRoomsButton = document.querySelector('.search-avaiable-rooms');
 
@@ -136,6 +134,11 @@ function bookARoom(e) {
     updateAvaiableRooms()
 
   }
+  checkWhatToBook(roomNumber, userID, onCustomerSuccess, onManagerSuccess)
+  alert("You've successfuly booked a room!")
+}
+
+function checkWhatToBook(roomNumber, userID, onCustomerSuccess, onManagerSuccess) {
   if(!manager) {
     let date = document.getElementById('date-input').value;
     let formattedDate = date.split(/[-]+/).join('/');
@@ -145,7 +148,6 @@ function bookARoom(e) {
     let formattedDate = date.split(/[-]+/).join('/');
     fetchApi.postBookingData(roomNumber, userID, formattedDate, onManagerSuccess);
   }
-  alert("You've successfuly booked a room!")
 }
 
 function cancelARoom(e) {
@@ -156,8 +158,18 @@ function cancelARoom(e) {
     alert("You cannot cancel a booking from the past");
     return;
   }
+  let booking = getBookingData(date, roomNumber, userID);
+  checkWhatToCancel(booking);
+  alert("You've successfuly canceled a room!")
+}
+
+function getBookingData(date, roomNumber, userID) {
   let formattedDate = date.split(/[-]+/).join('/');
-  let booking = bookingData.find(booking => booking.roomNumber === roomNumber && booking.userID === userID && booking.date === formattedDate)
+  let booking = bookingData.find(booking => booking.roomNumber === roomNumber && booking.userID === userID && booking.date === formattedDate);
+  return booking;
+}
+
+function checkWhatToCancel(booking) {
   let onCustomerSuccess = () => {
     updateBookingData();
   }
@@ -169,7 +181,6 @@ function cancelARoom(e) {
   } else {
     fetchApi.deleteBookingData(booking, onManagerSuccess);
   }
-  alert("You've successfuly canceled a room!")
 }
 
 function addBookedRoomsEventListener() {
