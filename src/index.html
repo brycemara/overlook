@@ -29,11 +29,13 @@
       <section class="search-section">
         <div class="container">
           <h3>Search Rooms</h3>
-          <label id="items">Number of Beds:
+          <label id="items">Room Type:
               <select class="type">
                 <option class="blank"></option>
-                <option class="item-1">1</option>
-                <option class="item-2">2</option>
+                <option class="single-room">single room</option>
+                <option class="suite">suite</option>
+                <option class="junior-suite">junior suite</option>
+                <option class="residential-suite">residential suite</option>
               </select>
           </label>
           <label for="date-input">Date:</label>
@@ -73,19 +75,17 @@
         <div class="total-revenue">
           <div class="input-details">
             <label for="date-input-revenue"><b>Find Daily Revenue</b></label>
-            <input type="date" id="date-input-revenue" name="occupied-date"value=""min="2020/01/08" max="2020/06/18">
-              <button type="button" class="calculate-revenue">Calculate Revenue</button>
+              <p class="revenue-today"></p>
+            </div>
           </div>
-          <p class="revenue"></p>
-        </div>
         <div class="hotel-percent-occupied">
           <label for="date-input-occupied"><b>Find Percent Occupied</b></h3>
-          <input type="date" id="date-input-occupied" name="occupied-date"value=""min="2020/01/08" max="2020/06/18">
-            <button type="button" class="search-hotel-percent-occupied">Search Occupancy</button>
           <p class="percent-occupied">0%</p>
         </div>
         <div class="avaiable-bookings">
-          <label for="avaiable-rooms-date"><b>Find Avaiable Bookings</b></label>
+          <label for=customer-name><b>Search Available Bookings By Cutomer Name & Date</b></label>
+          <input type="text" placeholder="Enter Customer Name" id="customer-name-avaiable" required>
+          <label for="avaiable-rooms-date">Date:</label>
           <input type="date" id="avaiable-rooms-date" value=""min="2020/01/08" max="2020/06/18">
           <button type="button" class="search-avaiable-rooms">Search Bookings</button>
           <p class="avaiable-results"></p>

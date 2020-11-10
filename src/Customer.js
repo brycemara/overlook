@@ -5,8 +5,8 @@ class Customer extends User {
     this.id = userDetails.id;
     this.name = userDetails.name;
   }
-  filterByRoomType(numBeds, roomsArray) {
-    const filteredRooms = roomsArray.filter(room => room.numBeds === numBeds);
+  filterByRoomType(roomType, roomsArray) {
+    const filteredRooms = roomsArray.filter(room => room.roomType === roomType);
     return filteredRooms;
   }
 };
