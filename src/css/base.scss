@@ -1,16 +1,25 @@
 /* This is an example of using Sass, otherwise plain CSS works too*/
-$primary-background: radial-gradient(circle, rgba(63,94,251,1) 0%, rgba(252,70,107,1) 100%);
-;
+@import 'variables';
 
-* {
-  // font-family: 'Varela Round', sans-serif;
+@mixin flexDisplay($direction) {
+  display: flex;
+  flex-direction: $direction;
+}
+
+@mixin overflow($height){
+  overflow-y: scroll;
+  height: $height;
+}
+
+@mixin alignCenter($margin) {
+  text-align: center;
+  margin: $margin;
 }
 
 body {
   background-image: url(https://hotelsvillasdirect.com/wp-content/uploads/121219219_0.jpg);
-  height: 100%;
-  width: 100%;
 }
+
 h3 {
   text-align: center;
 }
@@ -21,12 +30,12 @@ h3 {
 }
 
 *::-webkit-scrollbar {
-  background: white;
+  background: $white;
   width: 12px;
 }
 
 *::-webkit-scrollbar-thumb {
-  background-color: white;
+  background-color: $white;
   border-radius: 10px;
 }
 
@@ -36,14 +45,13 @@ h3 {
   height: 300px;
   width: 250px;
   border: white 1px solid;
-  background-color: #96e9e9;
+  background-color: $avaible-room-color;
   opacity: .9;
-  box-shadow: 3px 3px 10px black;
+  box-shadow: 3px 3px 10px $black;
 }
 
 .avaiable-bookings {
-  text-align: center;
-  margin: 1vw;
+  @include alignCenter(1vw);
 }
 
 #avaiable-rooms-date {
@@ -51,10 +59,8 @@ h3 {
 }
 
 .avaiable-results {
-  overflow-y: scroll;
-  height: 583px;
-  display: flex;
-  flex-direction: column;
+  @include overflow(583px)
+  @include flexDisplay(column);
   align-items: center;
 }
 
@@ -68,11 +74,11 @@ h3 {
 }
 
 .booking-card {
-  background: #8ceaea;
+  background: $room-card-color;
   opacity: .9;
   padding: 10px 20px;
   margin: 30px;
-  box-shadow: 3px 3px 10px black;
+  box-shadow: 3px 3px 10px $black;
 }
 
 .cancel-room {
@@ -88,7 +94,7 @@ h3 {
   display: flex;
   justify-content: space-around;
   margin: 5vw;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: $dashboard-color;
 }
 
 #date-input {
@@ -109,8 +115,7 @@ img.avatar {
 }
 
 .imgcontainer {
-  text-align: center;
-  margin: 24px 0 12px 0;
+  @include alignCenter(24px 0 12px 0);
 }
 
 input[type=text], input[type=password] {
@@ -127,8 +132,8 @@ input[type=text], input[type=password] {
   justify-content: center;
   font-family: 'Pacifico', cursive;
   font-size: 40px;
-  color: white;
-  text-shadow: 1px 1px #8ceaea;
+  color: $white;
+  text-shadow: 1px 1px $room-card-color;
 }
 
 .login-button {
@@ -136,26 +141,23 @@ input[type=text], input[type=password] {
 }
 
 .login-form {
-  display: flex;
+  @include flexDisplay(row);
   justify-content: center;
-  flex-direction: row;
 }
 
 .manager-dashboard {
   display: flex;
   justify-content: space-around;
   margin: 5vw;
-  background-color: rgba(255, 255, 255, 0.6);
+  background-color: $dashboard-color;
 }
 
 .total-revenue {
-  text-align: center;
-  margin: 1.5vw;
+  @include alignCenter(1.5vw)
 }
 
 .hotel-percent-occupied {
-  text-align: center;
-  margin: 1vw;
+  @include alignCenter(1vw)
 }
 
 #room-image {
@@ -166,7 +168,7 @@ input[type=text], input[type=password] {
 }
 
 #room-image-name-card {
-  background: #8ceaea;
+  background: $room-card-color;
   opacity: .9;
   cursor: pointer;
   top: 162px;
@@ -200,10 +202,8 @@ input[type=text], input[type=password] {
 }
 
 .search-results {
-  overflow-y: scroll;
-  height: 500px;
-  display: flex;
-  flex-direction: row;
+  @include overflow(500px)
+  @include flexDisplay(row);
   flex-wrap: wrap;
   justify-content: center;
 }
@@ -213,18 +213,15 @@ input[type=text], input[type=password] {
 }
 
 .user-bookings {
-  overflow-y: scroll;
-  height: 500px;
+  @include overflow(500px)
   text-align: center;
 }
 
 .user-results {
-  overflow-y: scroll;
-  height: 695px;
+  @include overflow(695px)
 }
 
 .user-spending {
   padding: 16px;
-  margin: 1vw;
-  text-align: center;
+  @include alignCenter(1vw)
 }
