@@ -169,10 +169,10 @@ describe('Customer', () => {
     expect(customer).to.be.an.instanceof(Customer);
   });
 
-  it('should be able filter by number of beds', () => {
+  it('should be able filter by room type', () => {
     let searchResults = customer.searchAvailibility("2020/04/22");
-    let filteredResults = customer.filterByRoomType(1, searchResults);
+    let filteredResults = customer.filterByRoomType("single room", searchResults);
 
-    expect(filteredResults.length).to.equal(5)
+    expect(filteredResults.length).to.equal(4)
   });
 });
